@@ -1,0 +1,17 @@
+{
+  "name": "playground",
+  "version": "0.0.1",
+  "description": "演示台",
+  "scripts": {
+    "start": "lyr dev",
+    "build": "lyr build",
+    "deploy": "lyr deploy"
+  },
+  "dependencies": {
+    "@yl-d/shared": "1.0.0",
+    "@yl-d/code-editor": "1.0.5"
+  },
+  "devDependencies": {
+    "@yl-d/cli": "1.0.5"
+  }
+}
