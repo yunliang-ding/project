@@ -1,18 +1,15 @@
 {
-  "name": "crud-model",
+  "name": "project",
   "version": "0.0.1",
-  "description": "crud模型搭建",
-  "scripts": {
-    "start": "lyr dev",
-    "build": "lyr build",
-    "deploy": "lyr deploy"
-  },
+  "description": "公开项目统一管理",
   "dependencies": {
-    "@yl-d/shared": "1.0.0",
-    "@yl-d/low-code": "1.0.0",
-    "@yl-d/code-editor": "1.0.5"
+    "@yl-d/shared": "1.0.2",
+    "@yl-d/low-code": "1.0.3",
+    "@yl-d/code-editor": "1.0.7",
+    "@yl-d/pro-components": "1.0.0"
   },
   "devDependencies": {
-    "@yl-d/cli": "1.0.5"
+    "@yl-d/cli": "1.0.5",
+    "@yl-d/docs": "1.0.19"
   }
 }

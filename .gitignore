@@ -21,7 +21,7 @@ yarn-error.log*
 index.module.scss.d.ts
 .vscode/settings.json
 .gitpod.yml
-src/.lyr
-src/.theme
+**/src/.lyr
+**/src/.theme
 yarn.lock
 www

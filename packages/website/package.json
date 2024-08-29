@@ -1,0 +1,28 @@
+{
+  "name": "Yunliang-Ding",
+  "description": "yunliang-ding",
+  "author": "yunliang-ding",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "lyr-docs dev",
+    "docs:build": "lyr-docs build"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "typings": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yunliang-ding/yunliang-ding"
+  },
+  "devDependencies": {
+    "@yl-d/code-editor":"1.0.7",
+    "@yl-d/shared":"1.0.2",
+    "@yl-d/hooks": "0.0.1",
+    "@yl-d/docs": "1.0.19"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  }
+}
