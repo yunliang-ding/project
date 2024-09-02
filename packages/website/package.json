@@ -12,7 +12,7 @@
   "typings": "dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yunliang-ding/yunliang-ding"
+    "url": "https://github.com/yunliang-ding"
   },
   "devDependencies": {
     "@yl-d/code-editor":"1.0.7",
