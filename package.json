@@ -4,12 +4,12 @@
   "description": "公开项目统一管理",
   "dependencies": {
     "@yl-d/shared": "1.0.2",
-    "@yl-d/low-code": "1.0.3",
+    "@yl-d/low-code": "1.0.4",
     "@yl-d/code-editor": "1.0.7",
-    "@yl-d/pro-components": "1.0.0"
+    "react-fast-marquee": "1.6.5"
   },
   "devDependencies": {
-    "@yl-d/cli": "1.0.5",
-    "@yl-d/docs": "1.0.20"
+    "@yl-d/cli": "1.0.6",
+    "@yl-d/docs": "1.0.21"
   }
 }
