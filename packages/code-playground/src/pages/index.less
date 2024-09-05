@@ -1,3 +1,59 @@
+.code-playground {
+  display: flex;
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  &-sider {
+    background-color: #272525;
+    position: relative;
+    width: 48px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    .yld-avatar{
+      background-color: inherit;
+    }
+    &-footer {
+      position: absolute;
+      left: 10px;
+      bottom: 10px;
+    }
+  }
+  .cloud-component {
+    width: calc(100vw - 548px);
+  }
+  &-preview {
+    position: relative;
+    width: 500px;
+    background-color: var(--bg-color);
+    .preview-address {
+      display: flex;
+      height: 40px;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0px 12px;
+      color: var(--text-color);
+      position: relative;
+      background: var(--bg-color-2);
+      .yld-input-wrapper {
+        width: calc(100% - 60px);
+        .yld-input-disabled {
+          opacity: 1;
+          border-radius: 30px;
+          height: 30px;
+          padding: 10px;
+        }
+      }
+    }
+    .preview-spin {
+      position: absolute;
+      top: 30px;
+      left: 0;
+    }
+  }
+}
 .playground-iframe {
   height: 100vh;
   width: 100%;
@@ -16,84 +72,6 @@
       font-size: 14px;
       height: 100vh;
       white-space: pre-wrap;
-    }
-  }
-}
-.app-preview {
-  width: 50%;
-  height: 100%;
-  position: relative;
-  background-color: var(--bg-color);
-  .preview-address {
-    display: flex;
-    height: 30px;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0px 12px;
-    color: var(--text-color);
-    position: relative;
-    background: var(--bg-color-2);
-    .iconfont {
-      cursor: pointer;
-      width: 20px;
-      height: 20px;
-      transition: 0.3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      margin-left: 8px;
-      &:hover {
-        background: #444;
-        border-radius: 6px;
-        transition: 0.3;
-      }
-    }
-  }
-  .preview-spin {
-    position: absolute;
-    top: 30px;
-    left: 0;
-  }
-}
-.code-history {
-  &-left {
-    width: 200px;
-    background-color: #181717;
-    &-item,
-    &-item-selected {
-      display: flex;
-      gap: 4px;
-      color: #aaa;
-      height: 22px;
-      align-items: center;
-      padding: 0 10px;
-      transition: 0.3s;
-
-      &:hover {
-        background-color: #2b2b2b;
-        cursor: pointer;
-        transition: 0.3s;
-      }
-    }
-    &-item-selected {
-      background-color: #2a2828;
-    }
-  }
-
-  &-right {
-    width: calc(100% - 200px);
-    &-react {
-      width: 100%;
-      height: 40%;
-    }
-    &-less {
-      width: 100%;
-      height: 30%;
-    }
-    &-props {
-      width: 100%;
-      height: 30%;
     }
   }
 }

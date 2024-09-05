@@ -1,8 +1,6 @@
-@code-height: 100vh;
-
 .cloud-component {
   display: flex;
-  height: @code-height;
+  height: 100vh;
   width: 100%;
   position: relative;
   overflow: hidden;
@@ -20,7 +18,7 @@
       padding-right: 4px;
     }
     &-body {
-      height: calc(@code-height - 240px);
+      height: calc(100vh - 40px);
       overflow: auto;
       overflow-x: hidden;
       &-item,
@@ -34,6 +32,7 @@
         position: relative;
         cursor: pointer;
         transition: 0.3s;
+        background: var(--bg-color-2);
         &:hover {
           background: var(--bg-color-3);
           transition: 0.3s;
@@ -54,8 +53,8 @@
     }
   }
   &-right {
-    width: calc(100% - 200px);
     background-color: var(--bg-color);
+    width: calc(100% - 200px);
     position: relative;
     &-empty {
       position: absolute;
@@ -70,18 +69,17 @@
       justify-content: space-between;
       gap: 12px;
       padding-right: 4px;
-      background-color: var(--bg-color);
+      background-color: var(--bg-color-2);
     }
     &-body {
       display: flex;
       flex-wrap: wrap;
       width: 100%;
-      gap: 0;
-      height: calc(@code-height - 39px);
+      height: calc(100vh - 40px);
       background-color: var(--bg-color);;
       &-react,
       &-props {
-        width: 50%;
+        width: 100%;
         height: 100%;
         .function-data-box,
         .json-data-box {
@@ -90,7 +88,7 @@
         }
       }
       &-less {
-        width: 50%;
+        width: 100%;
         height: 100%;
         .app-code-editor {
           height: 100% !important;
@@ -98,13 +96,7 @@
         }
       }
       &-preview {
-        height: 100%;
-        width: 50%;
-        overflow: auto;
-        background-color: var(--bg-color);
-        pre {
-          white-space: pre-wrap;
-        }
+        display: none;
       }
     }
   }
@@ -112,7 +104,7 @@
     height: 100%;
     display: flex;
     width: calc(100% - 200px);
-    background-color: var(--bg-color);
+    background-color: var(--bg-color-2);
     &-item,
     &-item-selected {
       font-size: 12px;
@@ -123,8 +115,11 @@
       align-items: center;
       padding-left: 12px;
       color: var(--text-color-2);
+      .close-icon {
+        visibility: hidden;
+      }
       &:hover {
-        background-color: var(--bg-color-2);
+        background-color: var(--bg-color-3);
         cursor: pointer;
         .close-icon {
           visibility: visible;
@@ -132,7 +127,7 @@
       }
     }
     &-item-selected {
-      background-color: var(--bg-color-3);
+      background-color: var(--bg-color);
       .close-icon {
         visibility: visible;
       }

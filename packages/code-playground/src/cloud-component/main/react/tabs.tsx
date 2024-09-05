@@ -6,7 +6,6 @@ export default ({
   setComponent,
   selectedTab,
   setSelectedTab,
-  onAdd,
   extra,
 }) => {
   const { reactChange } = store.useSnapshot();
@@ -18,8 +17,8 @@ export default ({
             item.open &&
             [
               {
-                icon: <i className="file-icon javascript-lang-file-icon" />,
-                name: 'index.js',
+                icon: <i className="file-icon javascriptreact-lang-file-icon" />,
+                name: 'index.tsx',
                 content: item.react,
                 change: reactChange,
               },

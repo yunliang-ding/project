@@ -1,6 +1,5 @@
 /** 资源包 */
 import { DrawerForm, FormItemProps } from '@yl-d/design';
-import { IconPlus } from '@yl-d/icon';
 import { CodeEditor } from '@yl-d/code-editor';
 
 const iconMapping = {
@@ -76,6 +75,17 @@ const schema = [
           value: 2,
         },
       ],
+      onChange(v, op, form) {
+        form.mergeItemByName('content', {
+          props: {
+            language: {
+              less: 'less',
+              javascript: 'javascript',
+              react: 'javascript',
+            }[form.getValues('type')],
+          } as any,
+        } as any);
+      },
     },
   },
   {
@@ -86,17 +96,6 @@ const schema = [
     visible({ getValues }) {
       const { codeWay } = getValues();
       return codeWay === 1;
-    },
-    onEffect: (e, form) => {
-      form.setSchemaByName('content', {
-        props: {
-          language: {
-            less: 'less',
-            javascript: 'javascript',
-            react: 'javascript',
-          }[form.getFieldValue('type')],
-        } as any,
-      } as any);
     },
     props: {
       style: {
@@ -122,7 +121,13 @@ const schema = [
   },
 ] as FormItemProps[];
 
-export default ({ dependencies, setDependencies, onAddDep, onUpdateDep }) => {
+export default ({
+  dependencies,
+  setDependencies,
+  onAddDep,
+  onUpdateDep,
+  activeTab,
+}) => {
   const depModalForm = DrawerForm({
     placement: 'left',
     initialValues: {
@@ -148,10 +153,17 @@ export default ({ dependencies, setDependencies, onAddDep, onUpdateDep }) => {
   });
   return (
     <>
-      <div className="cloud-component-left-header">
+      <div
+        className="cloud-component-left-header"
+        style={{ display: activeTab === 2 ? 'flex' : 'none' }}
+      >
         <span>配置依赖脚本</span>
-        <IconPlus
-          hover
+        <i
+          className="codicon codicon-new-file"
+          title="新建文件"
+          style={{
+            marginRight: 10,
+          }}
           onClick={() => {
             depModalForm.open({
               title: '添加脚本',
@@ -159,7 +171,10 @@ export default ({ dependencies, setDependencies, onAddDep, onUpdateDep }) => {
           }}
         />
       </div>
-      <div className="cloud-component-assets">
+      <div
+        className="cloud-component-assets"
+        style={{ display: activeTab === 2 ? 'block' : 'none' }}
+      >
         <div className="cloud-component-assets-files">
           {dependencies.map((item) => {
             return (

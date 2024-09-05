@@ -5,7 +5,7 @@
  * 自定义扩展业务组件
  */
 import ReactDOM from 'react-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, CSSProperties } from 'react';
 import { babelParse, MarkdownViewer } from '@yl-d/shared';
 import Main, { injectStyle } from './main';
 import Menus from './menus';
@@ -35,6 +35,7 @@ export interface CloudComponentProps {
   onUpdateDep?: Function;
   /** 自定义预览 */
   previewRender?: any;
+  style?: CSSProperties
 }
 
 const CloudComponent = ({
@@ -50,9 +51,10 @@ const CloudComponent = ({
   initialDependencies = [],
   onLog = () => {},
   previewRender,
+  style = {},
 }: CloudComponentProps) => {
   const currentRef: any = useRef({});
-  const [selectedTab, setSelectedTab]: any = useState('index.js'); // 默认选中index.js
+  const [selectedTab, setSelectedTab]: any = useState('index.tsx'); // 默认选中index.tsx
   // 存储选中的tab
   useEffect(() => {
     currentRef.current.selectedTab = selectedTab;
@@ -132,7 +134,7 @@ const CloudComponent = ({
     };
   }, [component, _require]);
   return (
-    <div className="cloud-component">
+    <div className="cloud-component" style={style}>
       <Menus
         component={component}
         setComponent={setComponent}

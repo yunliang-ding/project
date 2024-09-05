@@ -22,7 +22,7 @@ const Container = ({ selectedTab, item, require, previewRender }) => {
       }}
     >
       <div
-        style={{ display: selectedTab === 'index.js' ? 'block' : 'none' }}
+        style={{ display: selectedTab === 'index.tsx' ? 'block' : 'none' }}
         className="cloud-component-right-body-react"
       >
         <CodeEditor
