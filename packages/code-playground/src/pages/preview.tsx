@@ -30,8 +30,8 @@ const RenderApp = async ({ data, dependencies }) => {
         react: data.react,
         less: data.less,
         require: {
-          '@arco-design/web-react': window.arco,
-          '@arco-design/web-react/icon': window.arcoicon,
+          '@yl-d/design': window.yldDesign,
+          '@yl-d/icon': window.yldIcon,
           ...dependencies,
         },
       });
@@ -82,7 +82,7 @@ export default () => {
               dependencies[item.name] = babelParse({
                 code: item.content,
                 require: {
-                  '@arco-design/web-react': window.arco,
+                  '@yl-d/design': window.yldDesign,
                 }
               });
             } else if (item.type === 'less' && (window as any).less) {

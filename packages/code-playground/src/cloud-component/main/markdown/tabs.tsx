@@ -1,4 +1,4 @@
-import { IconClose } from '@arco-design/web-react/icon';
+import { IconClose } from '@yl-d/icon';
 
 export default ({ component, setComponent }) => {
   return (

@@ -1,3 +1,3 @@
-import { createStore } from '@yl-d/components';
+import { create } from '@yl-d/hooks';
 
-export default createStore({});
+export default create({});

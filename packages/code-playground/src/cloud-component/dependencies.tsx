@@ -1,17 +1,17 @@
 /** 资源包 */
-import { CreateDrawer, SchemaProps } from '@yl-d/components';
-import { IconPlus } from '@arco-design/web-react/icon';
+import { DrawerForm, FormItemProps } from '@yl-d/design';
+import { IconPlus } from '@yl-d/icon';
 import { CodeEditor } from '@yl-d/code-editor';
 
 const iconMapping = {
-  'less': "javascript-lang-file-icon",
-  'javascript': "javascript-lang-file-icon",
-  'react': "javascriptreact-lang-file-icon"
-}
+  less: 'javascript-lang-file-icon',
+  javascript: 'javascript-lang-file-icon',
+  react: 'javascriptreact-lang-file-icon',
+};
 
 const schema = [
   {
-    widget: 'Input',
+    type: 'Input',
     name: 'name',
     label: '资源名称',
     extra: '如果资源是umd包，请确保资源名称和window挂载的属性一致',
@@ -28,9 +28,14 @@ const schema = [
     },
   },
   {
-    widget: 'RadioGroup',
+    type: 'RadioGroup',
     name: 'type',
     label: '类型',
+    notifiRender: [
+      {
+        name: 'content',
+      },
+    ],
     props: {
       options: [
         {
@@ -49,9 +54,17 @@ const schema = [
     },
   },
   {
-    widget: 'RadioGroup',
+    type: 'RadioGroup',
     label: '上传格式',
     name: 'codeWay',
+    notifiRender: [
+      {
+        name: 'content',
+      },
+      {
+        name: 'ossPath',
+      },
+    ],
     props: {
       options: [
         {
@@ -66,12 +79,12 @@ const schema = [
     },
   },
   {
-    widget: 'CodeEditor',
+    type: 'CodeEditor',
     name: 'content',
     label: '编写脚本',
     required: true,
-    effect: ['type', 'codeWay'],
-    visible({ codeWay }) {
+    visible({ getValues }) {
+      const { codeWay } = getValues();
       return codeWay === 1;
     },
     onEffect: (e, form) => {
@@ -94,12 +107,12 @@ const schema = [
     },
   },
   {
-    widget: 'OssFileUpload',
+    type: 'Upload',
     name: 'ossPath',
     label: '上传脚本',
     required: true,
-    effect: ['codeWay'],
-    visible({ codeWay }) {
+    visible({ getValues }) {
+      const { codeWay } = getValues();
       return codeWay === 2;
     },
     props: {
@@ -107,17 +120,11 @@ const schema = [
       accept: '.js',
     },
   },
-] as SchemaProps[];
+] as FormItemProps[];
 
 export default ({ dependencies, setDependencies, onAddDep, onUpdateDep }) => {
-  const depModalForm = CreateDrawer({
-    drawerProps: {
-      bodyStyle: {
-        paddingBottom: 0,
-        paddingTop: 16,
-      },
-      placement: 'left',
-    },
+  const depModalForm = DrawerForm({
+    placement: 'left',
     initialValues: {
       type: 'javascript',
       codeWay: 1,
@@ -125,7 +132,7 @@ export default ({ dependencies, setDependencies, onAddDep, onUpdateDep }) => {
     schema,
     widgets: {
       CodeEditor,
-    },
+    } as any,
     onSubmit: async (values) => {
       const res = await onAddDep(values);
       if (res?.id) {
@@ -161,21 +168,22 @@ export default ({ dependencies, setDependencies, onAddDep, onUpdateDep }) => {
                 onClick={() => {
                   depModalForm.open({
                     title: `更新脚本《${item.name}》`,
-                    initialValues: {
-                      ...item,
-                    },
-                    onSubmit: async (values) => {
-                      const res = await onUpdateDep({
-                        ...item,
-                        ...values,
-                      });
-                      if (res) {
-                        Object.assign(item, values);
-                        setDependencies([...dependencies]);
-                      } else {
-                        return Promise.reject();
-                      }
-                    },
+                    // initialValues: {
+                    //   ...item,
+                    // },
+                    // onSubmit: async (values) => {
+                    //   const res = await onUpdateDep({
+                    //     ...item,
+                    //     ...values,
+                    //   });
+                    //   if (res) {
+                    //     Object.assign(item, values);
+                    //     setDependencies([...dependencies]);
+                    //     return Promise.resolve();
+                    //   } else {
+                    //     return Promise.reject();
+                    //   }
+                    // },
                   });
                 }}
               >

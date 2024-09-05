@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "description": "公开项目统一管理",
   "dependencies": {
+    "@yl-d/icon": "0.0.4",
+    "@yl-d/design": "0.0.8",
     "@yl-d/shared": "1.0.2",
     "@yl-d/low-code": "1.0.4",
     "@yl-d/code-editor": "1.0.7",

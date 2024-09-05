@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-import { Result, Button } from '@arco-design/web-react';
-import { IconRobot } from '@arco-design/web-react/icon';
+import { Result, Button } from '@yl-d/design';
+import { IconRobot } from '@yl-d/design/icon';
 import { useRouteError } from 'react-router-dom';
 
 export default () => {

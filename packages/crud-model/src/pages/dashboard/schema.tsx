@@ -1,4 +1,4 @@
-import { Notification } from '@arco-design/web-react';
+import { Notification } from '@yl-d/design';
 import { SchemaProps } from '@yl-d/components';
 import { encode } from '@yl-d/shared';
 import { add } from './services';

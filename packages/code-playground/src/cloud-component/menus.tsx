@@ -3,11 +3,10 @@
 import { isEmpty } from '@yl-d/shared';
 import Dependencies from './dependencies';
 import { IconRender } from './main';
-import { IconPlus } from '@arco-design/web-react/icon';
-import { CreateModal } from '@yl-d/components';
-import { Message } from '@arco-design/web-react';
+import { IconPlus } from '@yl-d/icon';
+import { Message, ModalForm } from '@yl-d/design';
 
-const reactStr = `import { Button } from '@arco-design/web-react';
+const reactStr = `import { Button } from '@yl-d/design';
 
 export default (props) => {
   return <div className="{componentName}">
@@ -77,72 +76,76 @@ export default ({
       <div className="cloud-component-left-header">
         <span>我的组件</span>
         <IconPlus
-          style={{ cursor: 'pointer' }}
+          hover
           onClick={() => {
-            CreateModal({
+            ModalForm({
               title: '添加组件',
-              height: 180,
+              style: {
+                height: 280,
+              },
               initialValues: {
-                type: 1
+                type: 1,
               },
               schema: [
                 {
-                  widget: "RadioGroup",
-                  name: "type",
+                  type: 'RadioGroup',
+                  name: 'type',
                   props: {
-                    options: [{
-                      label: "markdown 文件",
-                      value: 0
-                    }, {
-                      label: "react 组件",
-                      value: 1,
-                    }]
-                  }
+                    options: [
+                      {
+                        label: 'markdown 文件',
+                        value: 0,
+                      },
+                      {
+                        label: 'react 组件',
+                        value: 1,
+                      },
+                    ],
+                  },
                 },
                 {
-                  widget: 'Input',
+                  type: 'Input',
                   name: 'name',
                   label: '组件名',
                   required: true,
-                  rules: [
-                    {
-                      async validator(value, callback) {
-                        if (/\s+/.test(value)) {
-                          callback('文件名称不能包含空格');
-                        } else if (/[\u4E00-\u9FA5]/.test(value)) {
-                          callback('文件名称不能有中文');
-                        } else if (/^\d+$/.test(value)) {
-                          callback('文件名称不能以数字开头');
-                        } else if (
-                          component.some(
-                            (item) =>
-                              item.componentName === value && !isEmpty(value),
-                          )
-                        ) {
-                          callback('文件已存在');
-                        } else {
-                          Promise.resolve();
-                        }
-                      },
-                    },
-                  ],
+                  // rules: [
+                  //   {
+                  //     async validator(value, callback) {
+                  //       if (/\s+/.test(value)) {
+                  //         callback('文件名称不能包含空格');
+                  //       } else if (/[\u4E00-\u9FA5]/.test(value)) {
+                  //         callback('文件名称不能有中文');
+                  //       } else if (/^\d+$/.test(value)) {
+                  //         callback('文件名称不能以数字开头');
+                  //       } else if (
+                  //         component.some(
+                  //           (item) =>
+                  //             item.componentName === value && !isEmpty(value),
+                  //         )
+                  //       ) {
+                  //         callback('文件已存在');
+                  //       } else {
+                  //         Promise.resolve();
+                  //       }
+                  //     },
+                  //   },
+                  // ],
                 },
               ],
-            }).open({
               async onSubmit(values) {
-                let { type, name } = values
-                if(type === 0){
-                  name += ".md";
+                let { type, name } = values;
+                if (type === 0) {
+                  name += '.md';
                 }
                 const item = await addComponent(name);
                 setComponent([item, ...component]);
               },
-            });
+            }).open();
           }}
         />
       </div>
       <div className="cloud-component-left-body">
-        {component.map((item) => {
+        {component.map((item: any) => {
           return (
             <div
               key={item.componentName}

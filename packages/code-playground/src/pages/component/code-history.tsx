@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { CodeEditor } from '@yl-d/code-editor';
-import { IconFindReplace } from '@arco-design/web-react/icon';
+import { IconFindReplace } from '@yl-d/icon';
 
 export default ({ historys }) => {
   const [code, setCode]: any = useState(historys[0]);

@@ -7,13 +7,19 @@ settings:
 dependencies:
   '@yl-d/code-editor':
     specifier: 1.0.7
-    version: 1.0.7(@yl-d/design@0.0.7)(monaco-editor@0.51.0)(react-dom@17.0.2)(react@17.0.2)
+    version: 1.0.7(@yl-d/design@0.0.8)(monaco-editor@0.51.0)(react-dom@17.0.2)(react@17.0.2)
+  '@yl-d/design':
+    specifier: 0.0.8
+    version: 0.0.8(@yl-d/icon@0.0.4)(react-dom@17.0.2)(react@17.0.2)
+  '@yl-d/icon':
+    specifier: 0.0.4
+    version: 0.0.4(react-dom@17.0.2)(react@17.0.2)
   '@yl-d/low-code':
     specifier: 1.0.4
-    version: 1.0.4(@yl-d/code-editor@1.0.7)(@yl-d/design@0.0.7)(@yl-d/icon@0.0.4)(@yl-d/shared@1.0.2)(axios@1.7.5)(html2canvas@1.4.1)(react-dom@17.0.2)(react@17.0.2)
+    version: 1.0.4(@yl-d/code-editor@1.0.7)(@yl-d/design@0.0.8)(@yl-d/icon@0.0.4)(@yl-d/shared@1.0.2)(axios@1.7.5)(html2canvas@1.4.1)(react-dom@17.0.2)(react@17.0.2)
   '@yl-d/shared':
     specifier: 1.0.2
-    version: 1.0.2(@yl-d/design@0.0.7)(@yl-d/icon@0.0.4)(react-dom@17.0.2)(react@17.0.2)
+    version: 1.0.2(@yl-d/design@0.0.8)(@yl-d/icon@0.0.4)(react-dom@17.0.2)(react@17.0.2)
   react-fast-marquee:
     specifier: 1.6.5
     version: 1.6.5(react-dom@17.0.2)(react@17.0.2)
@@ -1196,7 +1202,7 @@ packages:
       - monaco-editor
     dev: true
 
-  /@yl-d/code-editor@1.0.7(@yl-d/design@0.0.7)(monaco-editor@0.51.0)(react-dom@17.0.2)(react@17.0.2):
+  /@yl-d/code-editor@1.0.7(@yl-d/design@0.0.8)(monaco-editor@0.51.0)(react-dom@17.0.2)(react@17.0.2):
     resolution: {integrity: sha512-YO2mi/I91Xkjvk2H6dUA8SipPcjtHzP3mdKr35SO/Cu7SVbeBrT6108Op8i4OBhCpk4pbDfEjFEISZNMtyTmHg==}
     peerDependencies:
       '@yl-d/design': '>=0.0.4'
@@ -1204,7 +1210,7 @@ packages:
       react-dom: '>=17.0.2'
     dependencies:
       '@monaco-editor/loader': 1.4.0(monaco-editor@0.51.0)
-      '@yl-d/design': 0.0.7(@yl-d/icon@0.0.4)(react-dom@17.0.2)(react@17.0.2)
+      '@yl-d/design': 0.0.8(@yl-d/icon@0.0.4)(react-dom@17.0.2)(react@17.0.2)
       lodash.clonedeep: 4.5.0
       lodash.debounce: 4.0.8
       monaco-editor-textmate: 4.0.0(monaco-editor@0.51.0)(monaco-textmate@3.0.1)
@@ -1248,8 +1254,8 @@ packages:
       react-dom: 17.0.2(react@17.0.2)
     dev: true
 
-  /@yl-d/design@0.0.7(@yl-d/icon@0.0.4)(react-dom@17.0.2)(react@17.0.2):
-    resolution: {integrity: sha512-rTzVJiNQeMLcG+9SOGo5/s/CG2BBElqpznKD5QKAX/TSPrim8YaTNedIYvAD2iG9sG+Po/q7mtdOThj0mS6/TA==}
+  /@yl-d/design@0.0.8(@yl-d/icon@0.0.4)(react-dom@17.0.2)(react@17.0.2):
+    resolution: {integrity: sha512-mhDPs7l7LNJuTryeWWePg8qoI2XOrKH9sazvdvlNkPofIo27Scmd1PVeRLmsRCV01lpN+dBcDuQtib2HLtiEjQ==}
     peerDependencies:
       '@yl-d/icon': '>=0.0.2'
       react: '>=17.0.2'
@@ -1374,7 +1380,7 @@ packages:
       react-dom: 17.0.2(react@17.0.2)
     dev: false
 
-  /@yl-d/low-code@1.0.4(@yl-d/code-editor@1.0.7)(@yl-d/design@0.0.7)(@yl-d/icon@0.0.4)(@yl-d/shared@1.0.2)(axios@1.7.5)(html2canvas@1.4.1)(react-dom@17.0.2)(react@17.0.2):
+  /@yl-d/low-code@1.0.4(@yl-d/code-editor@1.0.7)(@yl-d/design@0.0.8)(@yl-d/icon@0.0.4)(@yl-d/shared@1.0.2)(axios@1.7.5)(html2canvas@1.4.1)(react-dom@17.0.2)(react@17.0.2):
     resolution: {integrity: sha512-UxMQdpsbuf7LEi5FhWB1akI6YyIrhxgnLoBkZ/AzGU8aiW7Mtu3ggZMuqw6wH91lKN0WF1gZaS4GnxEqv9NQyw==}
     peerDependencies:
       '@yl-d/code-editor': '>=1.0.0'
@@ -1386,10 +1392,10 @@ packages:
       react: '>=17.0.2'
       react-dom: '>=17.0.2'
     dependencies:
-      '@yl-d/code-editor': 1.0.7(@yl-d/design@0.0.7)(monaco-editor@0.51.0)(react-dom@17.0.2)(react@17.0.2)
-      '@yl-d/design': 0.0.7(@yl-d/icon@0.0.4)(react-dom@17.0.2)(react@17.0.2)
+      '@yl-d/code-editor': 1.0.7(@yl-d/design@0.0.8)(monaco-editor@0.51.0)(react-dom@17.0.2)(react@17.0.2)
+      '@yl-d/design': 0.0.8(@yl-d/icon@0.0.4)(react-dom@17.0.2)(react@17.0.2)
       '@yl-d/icon': 0.0.4(react-dom@17.0.2)(react@17.0.2)
-      '@yl-d/shared': 1.0.2(@yl-d/design@0.0.7)(@yl-d/icon@0.0.4)(react-dom@17.0.2)(react@17.0.2)
+      '@yl-d/shared': 1.0.2(@yl-d/design@0.0.8)(@yl-d/icon@0.0.4)(react-dom@17.0.2)(react@17.0.2)
       axios: 1.7.5
       html2canvas: 1.4.1
       lodash.clonedeep: 4.5.0
@@ -1416,7 +1422,7 @@ packages:
       - supports-color
     dev: true
 
-  /@yl-d/shared@1.0.2(@yl-d/design@0.0.7)(@yl-d/icon@0.0.4)(react-dom@17.0.2)(react@17.0.2):
+  /@yl-d/shared@1.0.2(@yl-d/design@0.0.8)(@yl-d/icon@0.0.4)(react-dom@17.0.2)(react@17.0.2):
     resolution: {integrity: sha512-aWWahbeB0FoMG1PizpYl8tEhP0n1hEUm9WwrUNma55h+QYAREeo1uUDgT8ZfnG8xPrHa4u8+TI2xuKG4DgkPYw==}
     peerDependencies:
       '@yl-d/design': '>=0.0.3'
@@ -1424,7 +1430,7 @@ packages:
       react: '>=17.0.2'
       react-dom: '>=17.0.2'
     dependencies:
-      '@yl-d/design': 0.0.7(@yl-d/icon@0.0.4)(react-dom@17.0.2)(react@17.0.2)
+      '@yl-d/design': 0.0.8(@yl-d/icon@0.0.4)(react-dom@17.0.2)(react@17.0.2)
       '@yl-d/icon': 0.0.4(react-dom@17.0.2)(react@17.0.2)
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)

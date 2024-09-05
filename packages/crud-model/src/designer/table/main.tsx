@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { decode, encode } from '@yl-d/shared';
-import { Notification, Space } from '@arco-design/web-react';
+import { Notification, Space } from '@yl-d/design';
 import { TableDesigner } from '@yl-d/low-code';
 import { update } from '@/pages/dashboard/services';
 import { Button } from '@yl-d/components';
-import { IconSave } from '@arco-design/web-react/icon';
+import { IconSave } from '@yl-d/design/icon';
 
 export default ({ schemaEntity }) => {
   const [table] = TableDesigner.useTable();

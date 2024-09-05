@@ -1,7 +1,7 @@
 import { runApp } from 'lyr';
 import NProgress from 'nprogress';
 import Loading from '@/.theme/loading';
-import { Notification } from '@arco-design/web-react';
+import { Notification } from '@yl-d/design';
 import { Icon } from './util';
 import { userInfo } from '@/services';
 import "nprogress/nprogress.css";

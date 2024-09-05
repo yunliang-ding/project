@@ -8,10 +8,12 @@
     "deploy": "lyr deploy"
   },
   "dependencies": {
+    "@yl-d/icon": "0.0.4",
+    "@yl-d/design": "0.0.8",
     "@yl-d/shared": "1.0.0",
     "@yl-d/code-editor": "1.0.5"
   },
   "devDependencies": {
-    "@yl-d/cli": "1.0.5"
+    "@yl-d/cli": "1.0.6"
   }
 }

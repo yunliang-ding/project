@@ -1,4 +1,4 @@
-import { Result } from '@arco-design/web-react';
+import { Result } from '@yl-d/design';
 
 export default () => {
   return (

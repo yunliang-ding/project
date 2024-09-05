@@ -6,31 +6,6 @@ body {
   }
 }
 
-#nprogress .bar {
-  background: rgb(var(--primary-6)) !important;
-}
-
-#nprogress .peg {
-  box-shadow: 0 0 10px rgb(var(--primary-6)), 0 0 5px rgb(var(--primary-6)) !important;
-}
-
-@-webkit-keyframes nprogress-spinner {
-  0% {
-    -webkit-transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-  }
-}
-@keyframes nprogress-spinner {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 body {
   div,
   span,
@@ -46,15 +21,6 @@ body {
     font-weight: 500 !important;
     font-size: 12px !important;
   }
-  .arco-icon {
-    font-size: 14px !important;
-  }
-  .arco-empty-image .arco-icon {
-    font-size: 48px !important;
-  }
-  .arco-spin-icon .arco-icon {
-    font-size: 20px !important;
-  }
   h2 {
     font-size: 18px !important;
   }
@@ -66,9 +32,6 @@ body {
     text-decoration: none;
     cursor: pointer;
   }
-  .arco-page-header-content {
-    overflow: auto;
-  }
 }
 
 #root {
@@ -76,28 +39,6 @@ body {
   width: 100vw;
 }
 
-body {
-  -webkit-font-smoothing: antialiased;
-
-  button {
-    span {
-      font-weight: 600;
-    }
-  }
-
-  label {
-    font-weight: 600;
-  }
-}
-
-#root > .arco-result-is-500 {
-  position: relative;
-  top: 100px;
-}
-
-#root > .arco-spin > .arco-spin-icon > .arco-icon-loading {
-  font-size: 40px !important;
-}
 
 .playground {
   height: 100vh;

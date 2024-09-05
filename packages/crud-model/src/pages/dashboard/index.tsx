@@ -9,12 +9,12 @@ import {
   Empty,
   Menu,
   Space,
-} from '@arco-design/web-react';
+} from '@yl-d/design';
 import formSchema from './schema';
 import { outLogin } from '@/services';
 import { getList } from './services';
 import userStore from '@/store/user';
-import { IconPlus } from '@arco-design/web-react/icon';
+import { IconPlus } from '@yl-d/design/icon';
 import Loading from '@/.theme/loading';
 import { CodeEditor } from '@yl-d/code-editor';
 import './index.less';

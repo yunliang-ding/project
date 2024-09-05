@@ -15,9 +15,8 @@ declare module '*.module.scss' {
 
 declare interface Window{
   less?: any;
-  arco?: any;
-  arcoicon?: any;
-  lyr?: any;
+  yldDesign?: any;
+  yldIcon?: any;
 }
 
 declare interface String{

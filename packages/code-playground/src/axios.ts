@@ -1,6 +1,6 @@
 import { getUser } from './util';
 import axios from 'axios';
-import { Notification } from '@arco-design/web-react';
+import { Notification } from '@yl-d/design';
 import NProgress from 'nprogress';
 import "nprogress/nprogress.css";
 

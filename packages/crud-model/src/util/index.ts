@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { Icon as ArcoIcon } from '@arco-design/web-react';
+import { Icon as ArcoIcon } from '@yl-d/design';
 /**
  * iconUrl
  */

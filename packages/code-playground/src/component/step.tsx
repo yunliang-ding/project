@@ -1,5 +1,5 @@
-import { Spin } from '@arco-design/web-react';
 import { useEffect, useRef, useState } from 'react';
+import { Spin } from '@yl-d/design';
 import './index.less';
 
 export default ({ stepRef = useRef({}) }: any) => {

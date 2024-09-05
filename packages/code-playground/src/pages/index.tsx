@@ -1,14 +1,14 @@
 /* eslint-disable @iceworks/best-practices/recommend-polyfill */
 import { useEffect, useRef, useState } from 'react';
-import { Button, CreateDrawer } from '@yl-d/components';
-import { Message, Notification, Space } from '@arco-design/web-react';
+import { Button, Drawer } from '@yl-d/design';
+import { Message, Notification, Space } from '@yl-d/design';
 import { downloadFile } from '@yl-d/shared';
 import { instance } from '@/axios';
 import Step from '@/component/step';
 import CloudComponent from '@/cloud-component';
 import Loading from '@/component/loading';
 import CodeHistory from './component/code-history';
-import { IconLaunch, IconRefresh } from '@arco-design/web-react/icon';
+import { IconLaunch, IconRefresh } from '@yl-d/icon';
 import { useSearchParams } from 'react-router-dom';
 import store from '@/store';
 import './index.less';
@@ -89,8 +89,8 @@ const Component = ({ initialDependencies = [], id }) => {
         <CloudComponent
           componentRef={componentRef}
           require={{
-            '@arco-design/web-react': window.arco,
-            '@arco-design/web-react/icon': window.arcoicon,
+            '@yl-d/design': window.yldDesign,
+            '@yl-d/icon': window.yldIcon,
           }}
           onSave={addOrUpdate}
           onLog={async (info) => {
@@ -173,9 +173,7 @@ const Component = ({ initialDependencies = [], id }) => {
           }}
           extra={[
             <Button
-              spin
               type="primary"
-              size="small"
               onClick={async () => {
                 const url = URL.createObjectURL(
                   new Blob(
@@ -203,9 +201,7 @@ const Component = ({ initialDependencies = [], id }) => {
               导出当前组件
             </Button>,
             <Button
-              spin
               type="primary"
-              size="small"
               onClick={async () => {
                 const history: any = await instance.post('/codehistory/list', {
                   componentId: componentRef.current.code.id,
@@ -215,17 +211,15 @@ const Component = ({ initialDependencies = [], id }) => {
                   if (history.data.data.data.length === 0) {
                     Message.info('暂无修改记录');
                   } else {
-                    CreateDrawer({
+                    Drawer({
                       title: '修改历史',
                       className: 'code-history',
                       footer: false,
                       width: 'calc(100vw - 200px)',
-                      drawerProps: {
-                        bodyStyle: {
-                          padding: 0,
-                          background: '#1e1e1e',
-                        },
-                      },
+                      // bodyStyle: {
+                      //   padding: 0,
+                      //   background: '#1e1e1e',
+                      // },
                     }).open({
                       render() {
                         return (

@@ -1,9 +1,8 @@
-import { Spin } from '@arco-design/web-react';
+import { Spin } from '@yl-d/design';
 
 export default () => {
   return (
     <Spin
-      size={40}
       style={{
         background: '#eee',
         height: '100vh',

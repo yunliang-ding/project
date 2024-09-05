@@ -1,7 +1,7 @@
 /* eslint-disable require-atomic-updates */
 /* eslint-disable no-template-curly-in-string */
 import axios from 'axios';
-import { Notification } from '@arco-design/web-react';
+import { Notification } from '@yl-d/design';
 import { CreateDrawer } from '@yl-d/components';
 import { decode, encode } from '@yl-d/shared';
 import { update } from '@/pages/dashboard/services';
