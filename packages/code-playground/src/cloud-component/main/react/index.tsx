@@ -4,7 +4,8 @@ import Tabs from './tabs';
 import store from '@/store';
 import uiStore from '@/store/ui';
 
-const Container = ({ selectedTab, item, require, previewRender }) => {
+const Container = ({ item, require, previewRender }) => {
+  const { selectedTab } = uiStore.useSnapshot();
   const codeRef1: any = React.useRef({});
   const codeRef2: any = React.useRef({});
   const codeRef3: any = React.useRef({});
@@ -15,14 +16,9 @@ const Container = ({ selectedTab, item, require, previewRender }) => {
     });
   }, [dark]);
   return (
-    <div
-      className="cloud-component-right-body"
-      style={{
-        display: item.selected ? 'flex' : 'none',
-      }}
-    >
+    <div className="cloud-component-right-body">
       <div
-        style={{ display: selectedTab === 'index.tsx' ? 'block' : 'none' }}
+        style={{ display: selectedTab === 0 ? 'block' : 'none' }}
         className="cloud-component-right-body-react"
       >
         <CodeEditor
@@ -30,7 +26,7 @@ const Container = ({ selectedTab, item, require, previewRender }) => {
           require={require}
           codeRef={codeRef1}
           value={item.react}
-          onChange={(code) => {
+          onChange={(code: string) => {
             item.react = code;
             store.reactChange = item.originReact !== code;
           }}
@@ -39,7 +35,7 @@ const Container = ({ selectedTab, item, require, previewRender }) => {
 
       <div
         style={{
-          display: selectedTab === 'index.less' ? 'block' : 'none',
+          display: selectedTab === 1 ? 'block' : 'none',
         }}
         className="cloud-component-right-body-less"
       >
@@ -54,7 +50,7 @@ const Container = ({ selectedTab, item, require, previewRender }) => {
       </div>
       <div
         style={{
-          display: selectedTab === 'props.json' ? 'block' : 'none',
+          display: selectedTab === 2 ? 'block' : 'none',
         }}
         className="cloud-component-right-body-props"
       >

@@ -3,6 +3,7 @@
 import { isEmpty } from '@yl-d/shared';
 import { IconRender } from './main';
 import { Message, ModalForm } from '@yl-d/design';
+import uiStore from '@/store/ui';
 
 const reactStr = `import { Button } from '@yl-d/design';
 
@@ -23,51 +24,51 @@ const markdownStr = `# 标题
 
 `;
 
+const jsStr = `window.sum = (a, b) => {
+  return a + b
+}`;
+
 const lessStr = `.{componentName}{
   padding: 10px;
 }`;
 
-export default ({ component, setComponent, onAdd, activeTab }) => {
-  const addComponent = async (componentName: string) => {
+export default ({ onAdd, activeTab }) => {
+  const { components, currentFile } = uiStore.useSnapshot();
+  /** 新增组件 */
+  const addComponent = async (componentName: string, type: number) => {
     const item: any = {};
     if (!isEmpty(componentName)) {
       item.componentName = componentName;
-      if (componentName.endsWith('.md')) {
-        item.react = markdownStr;
-      } else {
+      item.type = type;
+      if (type === 1) {
         item.react = reactStr.replaceAll('{componentName}', componentName);
+      } else if (type === 2) {
+        item.react = markdownStr;
+      } else if (type === 3) {
+        item.react = jsStr.replaceAll('{componentName}', componentName);
       }
       item.less = lessStr.replaceAll('{componentName}', componentName);
       item.props = {
         name: componentName,
       };
-      // 自动选中到新增的这条
-      component.forEach((i) => {
-        i.selected = false;
-        i.open = false; // 兼容bug, 改成单开模式
-      });
-      item.selected = true;
-      item.open = true;
       try {
         item.id = await onAdd(item); // 获取id
         if (item.id === undefined) {
           Message.error('文件保存失败');
         } else {
-          item.selectedTab = 'index.tsx'; // 默认选中 js
+          uiStore.selectedTab = 0; // 默认选中
+          uiStore.components = [item, ...components]; // update
+          uiStore.currentFile = item; // 自动选中到新增的这条
         }
       } catch (error) {
         console.log(error);
       }
-      return item;
     }
   };
   return (
     <>
-      <div
-        className="cloud-component-left-header"
-        style={{ display: activeTab === 1 ? 'flex' : 'none' }}
-      >
-        <span>我的组件列表</span>
+      <div className="cloud-component-left-header">
+        <span>我的{['组件', '文档', '脚本'][activeTab - 1]}</span>
         <i
           className="codicon codicon-new-file"
           title="新建文件"
@@ -81,21 +82,26 @@ export default ({ component, setComponent, onAdd, activeTab }) => {
                 height: 280,
               },
               initialValues: {
-                type: 1,
+                type: activeTab,
               },
               schema: [
                 {
                   type: 'RadioGroup',
                   name: 'type',
+                  disabled: true,
                   props: {
                     options: [
                       {
-                        label: 'markdown 文件',
-                        value: 0,
-                      },
-                      {
                         label: 'react 组件',
                         value: 1,
+                      },
+                      {
+                        label: 'markdown 文件',
+                        value: 2,
+                      },
+                      {
+                        label: 'js 脚本',
+                        value: 3,
                       },
                     ],
                   },
@@ -103,7 +109,7 @@ export default ({ component, setComponent, onAdd, activeTab }) => {
                 {
                   type: 'Input',
                   name: 'name',
-                  label: '组件名',
+                  label: '名称',
                   required: true,
                   // rules: [
                   //   {
@@ -131,54 +137,45 @@ export default ({ component, setComponent, onAdd, activeTab }) => {
               ],
               async onSubmit(values) {
                 let { type, name } = values;
-                if (type === 0) {
+                if (type === 2) {
                   name += '.md';
                 }
-                const item = await addComponent(name);
-                setComponent([item, ...component]);
+                await addComponent(name, type);
               },
             }).open();
           }}
         />
       </div>
-      <div
-        className="cloud-component-left-body"
-        style={{ display: activeTab === 1 ? 'block' : 'none' }}
-      >
-        {component.map((item: any) => {
-          return (
-            <div
-              key={item.componentName}
-              className={
-                item.selected
-                  ? 'cloud-component-left-body-item-selected'
-                  : 'cloud-component-left-body-item'
-              }
-            >
-              <span style={{ marginRight: 4, display: 'flex' }}>
-                <IconRender componentName={item.componentName} />
-              </span>
-              <span style={{ position: 'relative' }}>
-                <div
-                  style={{ width: 180 }}
-                  onClick={async () => {
-                    setComponent(
-                      component.map((i: any) => {
-                        return {
-                          ...i,
-                          open: i.componentName === item.componentName, // 兼容bug, 改成单开模式
-                          selected: i.componentName === item.componentName,
-                        };
-                      }),
-                    );
-                  }}
-                >
-                  {item.componentName}
-                </div>
-              </span>
-            </div>
-          );
-        })}
+      <div className="cloud-component-left-body">
+        {components
+          .filter((i: any) => i.type === activeTab)
+          .map((item: any) => {
+            return (
+              <div
+                key={item.componentName}
+                className={
+                  item.id === currentFile.id
+                    ? 'cloud-component-left-body-item-selected'
+                    : 'cloud-component-left-body-item'
+                }
+              >
+                <span style={{ marginRight: 4, display: 'flex' }}>
+                  <IconRender componentName={item.componentName} />
+                </span>
+                <span style={{ position: 'relative' }}>
+                  <div
+                    style={{ width: 180 }}
+                    onClick={async () => {
+                      uiStore.currentFile = item;
+                      uiStore.selectedTab = 0;
+                    }}
+                  >
+                    {item.componentName}
+                  </div>
+                </span>
+              </div>
+            );
+          })}
       </div>
     </>
   );

@@ -12,12 +12,7 @@ const Container = ({ item, previewRender }) => {
     });
   }, [dark]);
   return (
-    <div
-      className="cloud-component-right-body"
-      style={{
-        display: item.selected ? 'flex' : 'none',
-      }}
-    >
+    <div className="cloud-component-right-body">
       <div className="cloud-component-right-body-react">
         <CodeEditor
           codeRef={codeRef}

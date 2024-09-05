@@ -1,9 +1,12 @@
 import MainReact from './react';
 import MainMd from './markdown';
+import MainScript from './script';
 
-export default (props) => {
-  if (props.item.componentName?.endsWith('.md')) {
+export default (props: any) => {
+  if (props.item.type === 2) {
     return <MainMd {...props} />;
+  } else if (props.item.type === 3) {
+    return <MainScript {...props} />;
   }
   return <MainReact {...props} />;
 };

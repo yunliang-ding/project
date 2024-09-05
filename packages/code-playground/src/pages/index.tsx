@@ -17,14 +17,11 @@ export const simpleNotice = (text: string, type = 'success') => {
   Message[type]({
     content: text,
     position: 'bottom',
-    duration: 10000000
   });
 };
 
 const CodeComponents = ({ stepRef, setLoadOver }) => {
-  const { components, dependencies, iframeRef } = uiStore.useSnapshot();
-  const componentRef: any = useRef({});
-  const addOrUpdate = async (value) => {
+  const addOrUpdate = async (value: any) => {
     const {
       data: { code, data },
     } = await instance.post(value.id ? '/component/update' : '/component/add', {
@@ -32,8 +29,6 @@ const CodeComponents = ({ stepRef, setLoadOver }) => {
       props: JSON.stringify(value.props),
       createTime: undefined,
       updateTime: undefined,
-      open: undefined,
-      selected: undefined,
     });
     if (code === 200) {
       value.originReact = value.react; // 同步原始脚本
@@ -46,65 +41,23 @@ const CodeComponents = ({ stepRef, setLoadOver }) => {
     } else {
       simpleNotice(`组件(${value.componentName})保存失败`, 'error');
     }
-    iframeRef.current?.contentWindow?.location?.reload?.();
+    uiStore.iframeRef.current?.contentWindow?.location?.reload?.();
     return data;
   };
-  useEffect(() => {
-    componentRef.current.setComponent(components);
-    console.log(components);
-  }, [components]);
   return (
     <>
       <CloudComponent
-        componentRef={componentRef}
-        require={{
-          '@yl-d/design': window.yldDesign,
-          '@yl-d/icon': window.yldIcon,
-        }}
         onSave={addOrUpdate}
+        onAdd={async (value) => {
+          await new Promise((res) => setTimeout(res, 500));
+          return await addOrUpdate(value);
+        }}
         onLog={async (info) => {
           await stepRef.current.updateLogs(info, 1000);
           if (info === '加载完毕') {
             await sleep(1000);
             setLoadOver(true);
           }
-        }}
-        initialDependencies={dependencies}
-        onAdd={async (value) => {
-          await new Promise((res) => setTimeout(res, 500));
-          return await addOrUpdate(value);
-        }}
-        onAddDep={async (dep) => {
-          const {
-            data: { code, data },
-          } = await instance.post('/dependencies/add', {
-            ...dep,
-            createTime: undefined,
-            updateTime: undefined,
-          });
-          if (code === 200) {
-            simpleNotice(`新增脚本${dep.name}成功`);
-            return {
-              id: data,
-            };
-          }
-          simpleNotice(`新增脚本${dep.name}失败`, 'error');
-          return {};
-        }}
-        onUpdateDep={async (dep: any) => {
-          const {
-            data: { code },
-          } = await instance.post('/dependencies/update', {
-            ...dep,
-            createTime: undefined,
-            updateTime: undefined,
-          });
-          if (code === 200) {
-            simpleNotice(`更新脚本${dep.name}成功`);
-            return true;
-          }
-          simpleNotice(`更新脚本${dep.name}失败`, 'error');
-          return false;
         }}
         previewRender={(item: any) => {
           uiStore.currentFile = item;
@@ -128,49 +81,37 @@ export default () => {
         data: { data },
       },
     } = await instance.post('/component/list');
+    setSpin(false);
     uiStore.components =
       code === 200
-        ? data.reverse().map((item) => {
-            return {
-              ...item,
-              open: String(item.id) === id,
-              selected: String(item.id) === id,
-              props: JSON.parse(item.props),
-              originReact: item.react,
-            };
+        ? data.reverse().map((i: any) => {
+          const item = {
+            ...i,
+            props: JSON.parse(i.props),
+            originReact: i.react,
+          }
+            if(String(item.id) === id){
+              uiStore.currentFile = item;
+            }
+            return item
           })
         : [];
   };
-  const queryDepList = () => {
-    instance
-      .post('/dependencies/list', {
-        pageSize: 99,
-      })
-      .then(
-        ({
-          data: {
-            data: { data },
-          },
-        }) => {
-          uiStore.dependencies = data;
-          setSpin(false);
-        },
-      );
-  };
   useEffect(() => {
     queryCompList();
-    queryDepList();
   }, []);
+  const rootRef = useRef<any>();
   return spin ? (
     <Loading />
   ) : (
     <>
       {!loadOver && <Step stepRef={stepRef} />}
       <div
+        ref={rootRef}
         className="code-playground"
         style={{ display: loadOver ? 'flex' : 'none' }}
       >
-        <Sider />
+        <Sider rootRef={rootRef} />
         <CodeComponents setLoadOver={setLoadOver} stepRef={stepRef} />
         <Preview />
       </div>

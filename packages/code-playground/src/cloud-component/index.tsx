@@ -1,19 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-await-in-loop */
-/* eslint-disable react-hooks/rules-of-hooks */
 /**
  * 自定义扩展业务组件
  */
 import ReactDOM from 'react-dom';
-import { useEffect, useRef, useState, CSSProperties } from 'react';
+import { useEffect, CSSProperties } from 'react';
 import { babelParse, MarkdownViewer } from '@yl-d/shared';
 import Main, { injectStyle } from './main';
-import Menus from './menus';
+import uiStore from '@/store/ui';
+import Components from './components';
 import './index.less';
 
 export interface CloudComponentProps {
-  /** 实例引用 */
-  componentRef?: any;
   /** 配置依赖 */
   require?: any;
   /** ctrl + s 钩子 */
@@ -22,12 +18,6 @@ export interface CloudComponentProps {
   onChange?: any;
   /** 新增钩子 */
   onAdd?: Function;
-  /** 默认值 */
-  initialComponent?: any[];
-  /** 配置额外操作 */
-  extra?: any[];
-  /** 外部依赖 */
-  initialDependencies?: any;
   onLog?: Function; // 加载日志
   /** 新增依赖 */
   onAddDep?: Function;
@@ -35,79 +25,69 @@ export interface CloudComponentProps {
   onUpdateDep?: Function;
   /** 自定义预览 */
   previewRender?: any;
-  style?: CSSProperties
+  style?: CSSProperties;
 }
 
 const CloudComponent = ({
-  componentRef = useRef({}),
-  require = {},
-  onSave = async (code) => {},
-  onAdd = async (code) => {},
-  onAddDep = async (code) => {},
-  onUpdateDep = async (version) => {},
+  onSave = async (code: string) => {},
+  onAdd = async (code: string) => {},
   onChange = () => {},
-  initialComponent = [],
-  extra = [],
-  initialDependencies = [],
   onLog = () => {},
   previewRender,
   style = {},
 }: CloudComponentProps) => {
-  const currentRef: any = useRef({});
-  const [selectedTab, setSelectedTab]: any = useState('index.tsx'); // 默认选中index.tsx
-  // 存储选中的tab
-  useEffect(() => {
-    currentRef.current.selectedTab = selectedTab;
-  }, [selectedTab]);
-  const [component, setComponent]: any = useState(initialComponent);
-  const [dependencies, setDependencies]: any = useState(initialDependencies);
-  const [_require, setRequire]: any = useState(require);
-  const updateDepReq = async (dep) => {
+  const { activeTab, components, require, currentFile } = uiStore.useSnapshot();
+  const updateDepReq = async (dep: any) => {
     const _dep = {};
     for (let i = 0; i < dep.length; i++) {
       const item = dep[i];
-      if (item.content) {
+      if (item.react) {
         try {
           await new Promise((res) => setTimeout(res, 400));
-          onLog(`加载资源: ${item.name}`);
-          if (item.type === 'javascript') {
-            new Function(item.content)();
-          } else if (item.type === 'react') {
-            _dep[item.name] = babelParse({
-              code: item.content,
-              require,
-            });
-          } else if (item.type === 'less' && window.less) {
-            const { css } = await window.less.render?.(item.content); // 要添加的 CSS 字符串
-            const sheet = new CSSStyleSheet(); // 创建一个 CSSStyleSheet 对象
-            sheet.insertRule(css, 0); // 将 CSS 规则插入到 CSS 样式表中，位置为第一个
-            document.adoptedStyleSheets = [sheet];
-          }
-          onLog(`${item.name} 资源解析成功..`);
+          onLog(`加载脚本: ${item.componentName}`);
+          await new Promise((res) => setTimeout(res, 400));
+          new Function(item.react)();
+          // // umd 资源
+          // if (item.componentName.endsWith('.js')) {
+          //   new Function(item.react)();
+          // } else if (item.componentName.endsWith('.tsx')) {
+          //   // react 组件
+          //   _dep[item.name] = babelParse({
+          //     code: item.react,
+          //     require,
+          //   });
+          // } else if (item.componentName.endsWith('.less') && window.less) {
+          //   // 全局样式 less
+          //   const { css } = await window.less.render?.(item.react); // 要添加的 CSS 字符串
+          //   const sheet = new CSSStyleSheet(); // 创建一个 CSSStyleSheet 对象
+          //   sheet.insertRule(css, 0); // 将 CSS 规则插入到 CSS 样式表中，位置为第一个
+          //   document.adoptedStyleSheets = [sheet];
+          // }
+          onLog(`${item.componentName} 脚本资源解析成功..`);
         } catch (error) {
           console.log(error);
-          onLog(`${item.name} 资源解析失败..`);
+          onLog(`${item.componentName} 脚本资源解析失败..`);
         }
       }
     }
     onLog('加载完毕');
     // 更新依赖
-    setRequire({
+    uiStore.require = {
       ...require,
       ..._dep,
-    });
+    };
   };
   // 加载依赖
   useEffect(() => {
-    updateDepReq(dependencies);
-  }, [dependencies]);
+    const deps = components.filter((i: any) => i.type === 3);
+    if (deps.length > 0) {
+      updateDepReq(deps);
+    }
+  }, [components]);
   // 保存
   const save = async () => {
     await new Promise((res) => setTimeout(res, 500));
-    await onSave(
-      component.find((i) => i.selected),
-      _require,
-    );
+    await onSave(currentFile);
   };
   // Ctrl + S
   const keyboardEvent = async (e) => {
@@ -120,32 +100,24 @@ const CloudComponent = ({
     }
   };
   useEffect(() => {
-    // 更新 ref Api
-    componentRef.current = {
-      component,
-      setComponent,
-      code: component.find((i) => i.selected),
-      tabs: currentRef.current,
-    };
     onChange();
     window.addEventListener('keydown', keyboardEvent);
     return () => {
       window.removeEventListener('keydown', keyboardEvent);
     };
-  }, [component, _require]);
+  }, [components, require]);
   return (
     <div className="cloud-component" style={style}>
-      <Menus
-        component={component}
-        setComponent={setComponent}
-        onAdd={onAdd}
-        dependencies={dependencies}
-        setDependencies={setDependencies}
-        onAddDep={onAddDep}
-        onUpdateDep={onUpdateDep}
-      />
+      <div className="cloud-component-left">
+        <Components
+          {...{
+            onAdd,
+            activeTab,
+          }}
+        />
+      </div>
       <div className="cloud-component-right">
-        {component.filter((i) => i.open).length === 0 ? (
+        {currentFile.id === undefined ? (
           <img
             style={{ width: 200 }}
             className="cloud-component-right-empty"
@@ -153,36 +125,19 @@ const CloudComponent = ({
           />
         ) : (
           <>
-            {component.map((item) => {
-              return (
-                item.open && (
-                  <Main
-                    item={item}
-                    extra={extra}
-                    onAdd={onAdd}
-                    component={component}
-                    setComponent={setComponent}
-                    setSelectedTab={setSelectedTab}
-                    selectedTab={selectedTab}
-                    key={[
-                      item.componentName,
-                      ...Object.keys(_require),
-                    ].toString()}
-                    require={_require}
-                    previewRender={previewRender}
-                  />
-                )
-              );
-            })}
+            <Main
+              item={currentFile}
+              key={currentFile.id}
+              require={require}
+              previewRender={previewRender}
+            />
           </>
         )}
       </div>
     </div>
   );
 };
-
 /** 解析 React */
-
 CloudComponent.parseReact = ({
   componentName,
   react = 'export default () => null',
@@ -199,17 +154,14 @@ CloudComponent.parseReact = ({
      require('injectStyle')('${componentName}', \`${less}\`);`,
   });
 };
-
 /** 解析 markdown */
 CloudComponent.parseMarkdown = async (props: any) => {
   return () => {
     return <MarkdownViewer {...props} />;
   };
 };
-
 /** 组件渲染 */
 CloudComponent.render = (Comp, root) => {
   ReactDOM.render(Comp, root);
 };
-
 export default CloudComponent;
