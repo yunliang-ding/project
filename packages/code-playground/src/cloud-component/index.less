@@ -8,14 +8,14 @@
   overflow: hidden;
   &-left {
     width: 200px;
-    background: #232323;
+    background: var(--bg-color-2);
     &-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       height: 40px;
       font-size: 12px;
-      color: #ccc;
+      color: var(--text-color);
       padding: 0 12px;
       padding-right: 4px;
     }
@@ -23,17 +23,6 @@
       height: calc(@code-height - 240px);
       overflow: auto;
       overflow-x: hidden;
-      &::-webkit-scrollbar {
-        width: 10px;
-        height: 4px;
-        border-radius: 0px;
-        background: rgba(0, 0, 0, 0.1);
-      }
-      &::-webkit-scrollbar-thumb {
-        border-radius: 0px;
-        height: 100px; /* 滚动条滑块长度 */
-        background: rgba(255, 255, 255, 0.1);
-      }
       &-item,
       &-item-selected {
         height: 22px;
@@ -41,17 +30,17 @@
         align-items: center;
         padding: 0 10px;
         font-size: 12px;
-        color: #ccc;
+        color: var(--text-color);
         position: relative;
         cursor: pointer;
         transition: 0.3s;
         &:hover {
-          background: #2b3740;
+          background: var(--bg-color-3);
           transition: 0.3s;
         }
       }
       &-item-selected {
-        background-color: #37373c;
+        background-color: var(--bg-color-3);
       }
       &-input-error {
         position: absolute;
@@ -66,7 +55,7 @@
   }
   &-right {
     width: calc(100% - 200px);
-    background-color: #1e1e1e;
+    background-color: var(--bg-color);
     position: relative;
     &-empty {
       position: absolute;
@@ -81,7 +70,7 @@
       justify-content: space-between;
       gap: 12px;
       padding-right: 4px;
-      background-color: #282828;
+      background-color: var(--bg-color);
     }
     &-body {
       display: flex;
@@ -89,7 +78,7 @@
       width: 100%;
       gap: 0;
       height: calc(@code-height - 39px);
-      background-color: #1e1e1e;
+      background-color: var(--bg-color);;
       &-react,
       &-props {
         width: 50%;
@@ -112,7 +101,7 @@
         height: 100%;
         width: 50%;
         overflow: auto;
-        background-color: #fff;
+        background-color: var(--bg-color);
         pre {
           white-space: pre-wrap;
         }
@@ -123,6 +112,7 @@
     height: 100%;
     display: flex;
     width: calc(100% - 200px);
+    background-color: var(--bg-color);
     &-item,
     &-item-selected {
       font-size: 12px;
@@ -132,9 +122,9 @@
       padding: 0 12px;
       align-items: center;
       padding-left: 12px;
-      color: #fff;
+      color: var(--text-color-2);
       &:hover {
-        background-color: #222;
+        background-color: var(--bg-color-2);
         cursor: pointer;
         .close-icon {
           visibility: visible;
@@ -142,7 +132,7 @@
       }
     }
     &-item-selected {
-      background-color: #1e1e1e;
+      background-color: var(--bg-color-3);
       .close-icon {
         visibility: visible;
       }
@@ -151,17 +141,6 @@
   &-assets {
     overflow: auto;
     height: 160px;
-    &::-webkit-scrollbar {
-      width: 10px;
-      height: 4px;
-      border-radius: 0px;
-      background: rgba(0, 0, 0, 0.1);
-    }
-    &::-webkit-scrollbar-thumb {
-      border-radius: 0px;
-      height: 100px; /* 滚动条滑块长度 */
-      background: rgba(255, 255, 255, 0.1);
-    }
     &-files {
       &-file {
         height: 22px;
@@ -169,13 +148,11 @@
         display: flex;
         align-items: center;
         gap: 6px;
+        color: var(--text-color);
         cursor: pointer;
         transition: 0.3s;
-        .arco-icon {
-          color: #fff;
-        }
         &:hover {
-          background: #2b3740;
+          background: var(--bg-color-3);
           transition: 0.3s;
         }
       }

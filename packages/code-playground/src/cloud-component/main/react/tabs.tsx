@@ -13,7 +13,7 @@ export default ({
   return (
     <div className="cloud-component-right-header">
       <div className="cloud-component-tabs">
-        {component.map((item) => {
+        {component.map((item: any) => {
           return (
             item.open &&
             [
@@ -71,7 +71,7 @@ export default ({
                       setComponent([...component]);
                     }}
                   >
-                    <IconClose />
+                    <IconClose hover/>
                   </span>
                 </div>
               );

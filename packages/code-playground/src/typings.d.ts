@@ -15,6 +15,7 @@ declare module '*.module.scss' {
 
 declare interface Window{
   less?: any;
+  monaco?: any;
   yldDesign?: any;
   yldIcon?: any;
 }

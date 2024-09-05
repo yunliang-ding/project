@@ -1,14 +1,19 @@
 /* eslint-disable @iceworks/best-practices/recommend-polyfill */
 import { useEffect, useRef, useState } from 'react';
-import { Button, Drawer } from '@yl-d/design';
-import { Message, Notification, Space } from '@yl-d/design';
-import { downloadFile } from '@yl-d/shared';
+import { Avatar, Button } from '@yl-d/design';
+import { Notification, Space } from '@yl-d/design';
 import { instance } from '@/axios';
 import Step from '@/component/step';
 import CloudComponent from '@/cloud-component';
 import Loading from '@/component/loading';
-import CodeHistory from './component/code-history';
-import { IconLaunch, IconRefresh } from '@yl-d/icon';
+import uiStore from '@/store/ui';
+import userStore from '@/store/user';
+import {
+  IconLaunch,
+  IconMoon,
+  IconRefresh,
+  IconSun,
+} from '@yl-d/icon';
 import { useSearchParams } from 'react-router-dom';
 import store from '@/store';
 import './index.less';
@@ -23,6 +28,8 @@ export const simpleNotice = (text: string, type = 'success') => {
 };
 
 const Component = ({ initialDependencies = [], id }) => {
+  const { dark } = uiStore.useSnapshot();
+  const { avatarUrl } = userStore.useSnapshot();
   const componentRef: any = useRef({});
   const iframeRef: any = useRef({});
   const stepRef: any = useRef({});
@@ -173,78 +180,18 @@ const Component = ({ initialDependencies = [], id }) => {
           }}
           extra={[
             <Button
-              type="primary"
+              circle
+              icon={dark ? <IconSun /> : <IconMoon />}
               onClick={async () => {
-                const url = URL.createObjectURL(
-                  new Blob(
-                    JSON.stringify(
-                      [
-                        {
-                          componentName:
-                            componentRef.current.code.componentName,
-                          react: componentRef.current.code.react,
-                          less: componentRef.current.code.less,
-                          props: componentRef.current.code.props,
-                        },
-                      ],
-                      null,
-                      2,
-                    ).split(''),
-                  ),
-                );
-                await downloadFile(
-                  url,
-                  `${componentRef.current.code.componentName}.json`,
-                );
+                uiStore.dark = !dark;
               }}
-            >
-              导出当前组件
-            </Button>,
-            <Button
-              type="primary"
-              onClick={async () => {
-                const history: any = await instance.post('/codehistory/list', {
-                  componentId: componentRef.current.code.id,
-                  pageSize: 20,
-                });
-                if (history.data.code === 200) {
-                  if (history.data.data.data.length === 0) {
-                    Message.info('暂无修改记录');
-                  } else {
-                    Drawer({
-                      title: '修改历史',
-                      className: 'code-history',
-                      footer: false,
-                      width: 'calc(100vw - 200px)',
-                      // bodyStyle: {
-                      //   padding: 0,
-                      //   background: '#1e1e1e',
-                      // },
-                    }).open({
-                      render() {
-                        return (
-                          <CodeHistory
-                            historys={history.data.data.data.map(
-                              (item, index) => {
-                                return {
-                                  ...item,
-                                  before: JSON.parse(item.before),
-                                  after: JSON.parse(item.after),
-                                };
-                              },
-                            )}
-                          />
-                        );
-                      },
-                    });
-                  }
-                } else {
-                  Message.error('接口异常!');
-                }
-              }}
-            >
-              修改历史
-            </Button>,
+            />,
+            <Avatar size={30}>
+              <img
+                alt="avatar"
+                src={avatarUrl}
+              />
+            </Avatar>,
           ]}
         />
       </div>

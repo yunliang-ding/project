@@ -14,8 +14,8 @@ export default ({ stepRef = useRef({}) }: any) => {
   return (
     <div className="app-step-logs">
       <pre>
-        <Spin loading />
-        {logs.reverse().map((log) => {
+        <Spin loading style={{ top: 20 }} />
+        {logs.reverse().map((log: any) => {
           return (
             <p
               key={log}

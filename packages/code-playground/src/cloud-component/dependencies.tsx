@@ -151,6 +151,7 @@ export default ({ dependencies, setDependencies, onAddDep, onUpdateDep }) => {
       <div className="cloud-component-left-header">
         <span>配置依赖脚本</span>
         <IconPlus
+          hover
           onClick={() => {
             depModalForm.open({
               title: '添加脚本',
@@ -188,7 +189,7 @@ export default ({ dependencies, setDependencies, onAddDep, onUpdateDep }) => {
                 }}
               >
                 <i className={`file-icon ${iconMapping[item.type]}`} />
-                <span style={{ color: '#ddd' }}>{item.name}</span>
+                <span>{item.name}</span>
               </div>
             );
           })}
