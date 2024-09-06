@@ -11,7 +11,7 @@ export default () => {
     uiStore.iframeRef.current?.contentWindow?.location?.reload?.();
   }, [currentFile]);
   let url = '';
-  if (currentFile) {
+  if (currentFile.componentName) {
     (document as any).title = `${currentFile.componentName}-PlayGround`;
     url = `${location.origin}${location.pathname}#/preview?id=${currentFile.id}`;
     if (currentFile.id) {
