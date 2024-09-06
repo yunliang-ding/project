@@ -3,9 +3,12 @@ import { decode, encode } from '@yl-d/shared';
 import { FormDesigner } from '@yl-d/low-code';
 import { Button, Notification, Space } from '@yl-d/design';
 import { update } from '@/pages/dashboard/services';
-import { IconSave } from '@yl-d/icon';
+import { IconSave, IconSun, IconMoon } from '@yl-d/icon';
+import uiStore from '@/store/ui';
 
 export default ({ schemaEntity }) => {
+  const { dark } = uiStore.useSnapshot();
+  const IconMoonSun = dark ? IconSun : IconMoon;
   const [form] = FormDesigner.useForm();
   /** 更新模型 */
   const saveOrUpdate = async (flag = true) => {
@@ -45,6 +48,13 @@ export default ({ schemaEntity }) => {
           </Space>
         }
         extra={[
+          <Button
+            onClick={async () => {
+              uiStore.dark = !dark;
+            }}
+            circle
+            icon={<IconMoonSun />}
+          />,
           <Button
             onClick={saveOrUpdate}
             type="primary"

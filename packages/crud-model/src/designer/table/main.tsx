@@ -3,9 +3,12 @@ import { decode, encode } from '@yl-d/shared';
 import { Button, Notification, Space } from '@yl-d/design';
 import { TableDesigner } from '@yl-d/low-code';
 import { update } from '@/pages/dashboard/services';
-import { IconSave } from '@yl-d/icon';
+import { IconSave, IconSun, IconMoon } from '@yl-d/icon';
+import uiStore from '@/store/ui';
 
 export default ({ schemaEntity }) => {
+  const { dark } = uiStore.useSnapshot();
+  const IconMoonSun = dark ? IconSun : IconMoon;
   const [table] = TableDesigner.useTable();
   // 更新模型
   const saveOrUpdate = async (flag = true) => {
@@ -46,10 +49,13 @@ export default ({ schemaEntity }) => {
         }
         extra={[
           <Button
-            onClick={saveOrUpdate}
-            type="primary"
-            icon={<IconSave />}
-          >
+            onClick={async () => {
+              uiStore.dark = !dark;
+            }}
+            circle
+            icon={<IconMoonSun />}
+          />,
+          <Button onClick={saveOrUpdate} type="primary" icon={<IconSave />}>
             保存
           </Button>,
         ]}
