@@ -14,7 +14,7 @@ export default () => {
   if (currentFile) {
     (document as any).title = `${currentFile.componentName}-PlayGround`;
     url = `${location.origin}${location.pathname}#/preview?id=${currentFile.id}`;
-    if (currentFile) {
+    if (currentFile.id) {
       history.pushState({}, '', `${location.pathname}#/?id=${currentFile.id}`);
     }
   }

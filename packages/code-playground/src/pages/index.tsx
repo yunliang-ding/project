@@ -22,7 +22,6 @@ export const simpleNotice = (text: string, type = 'success') => {
 
 const CodeComponents = ({ stepRef, setLoadOver }) => {
   const addOrUpdate = async (value: any) => {
-    console.log(value);
     const {
       data: { code, data },
     } = await instance.post(value.id ? '/component/update' : '/component/add', {
@@ -30,6 +29,8 @@ const CodeComponents = ({ stepRef, setLoadOver }) => {
       props: JSON.stringify(value.props),
       createTime: undefined,
       updateTime: undefined,
+      createUser: undefined,
+      updateUser: undefined
     });
     if (code === 200) {
       value.originReact = value.react; // 同步原始脚本
@@ -97,7 +98,7 @@ export default () => {
         return item;
       });
     }
-    if (!id) {
+    if (!id && uiStore.components.length > 0) {
       uiStore.currentFile = uiStore.components[0];
       uiStore.activeTab = uiStore.currentFile.type;
     }

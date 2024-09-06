@@ -83,19 +83,19 @@ export default ({ onAdd, activeTab }) => {
       }
     }
   };
+  const tabName = ['组件', '文档', '脚本'][activeTab - 1];
   return (
     <>
       <div className="cloud-component-left-header">
-        <span>我的{['组件', '文档', '脚本'][activeTab - 1]}</span>
+        <span>我的{tabName}</span>
         <i
           className="codicon codicon-new-file"
-          title="新建文件"
           style={{
             marginRight: 10,
           }}
           onClick={() => {
             ModalForm({
-              title: '添加组件',
+              title: `创建${tabName}`,
               style: {
                 height: 340,
               },

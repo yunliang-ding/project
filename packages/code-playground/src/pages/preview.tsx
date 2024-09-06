@@ -52,6 +52,7 @@ const RenderApp = async ({ data }) => {
 };
 
 export default () => {
+  document.body.removeAttribute('yld-theme'); // 不用黑色主题
   const [searchParams] = useSearchParams();
   const [data, setData] = useState({});
   // 查询模型

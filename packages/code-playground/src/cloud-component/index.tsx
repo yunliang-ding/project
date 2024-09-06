@@ -73,6 +73,8 @@ const CloudComponent = ({
     const deps = components.filter((i: any) => i.type === 3);
     if (deps.length > 0) {
       updateDepReq(deps);
+    } else {
+      onLog('加载完毕');
     }
   }, [components]);
   // 保存

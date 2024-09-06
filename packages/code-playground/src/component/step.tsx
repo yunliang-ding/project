@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Spin } from '@yl-d/design';
+import { CodeEditor } from '@yl-d/code-editor';
 import './index.less';
 
 export default ({ stepRef = useRef({}) }: any) => {
@@ -32,6 +33,7 @@ export default ({ stepRef = useRef({}) }: any) => {
           );
         })}
       </pre>
+      <CodeEditor style={{ display: 'none' }} />
     </div>
   );
 };
