@@ -43,7 +43,6 @@ export default ({ schemaEntity }) => {
               src="https://lyr-cli-oss.oss-cn-beijing.aliyuncs.com/assets/favicon.ico"
               width={40}
             />
-            <h2>TableDesigner</h2>
             <Button
               icon={<IconArrowLeft />}
               onClick={() => {
@@ -52,6 +51,7 @@ export default ({ schemaEntity }) => {
             >
               返回
             </Button>
+            <h2>TableDesigner</h2>
           </Space>
         }
         extra={[
