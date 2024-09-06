@@ -1,27 +1,30 @@
 /* eslint-disable no-nested-ternary */
 import { useEffect, useState } from 'react';
 import { decode } from '@yl-d/shared';
-import { CreateModal } from '@yl-d/components';
 import {
   Avatar,
-  Card,
   Dropdown,
   Empty,
   Menu,
   Space,
+  ModalForm,
+  Button,
 } from '@yl-d/design';
 import formSchema from './schema';
 import { outLogin } from '@/services';
 import { getList } from './services';
 import userStore from '@/store/user';
-import { IconPlus } from '@yl-d/design/icon';
+import { IconMoon, IconPlus, IconSun } from '@yl-d/icon';
 import Loading from '@/.theme/loading';
 import { CodeEditor } from '@yl-d/code-editor';
+import uiStore from '@/store/ui';
 import './index.less';
 
 const prefixCls = 'app-form-designer-dashboard';
 
 export default () => {
+  const { dark } = uiStore.useSnapshot();
+  const IconMoonSun = dark ? IconSun : IconMoon;
   const { name, avatarUrl } = userStore.useSnapshot();
   const [data, setData]: any = useState([]);
   const [spin, setSpin] = useState(false);
@@ -53,23 +56,26 @@ export default () => {
           <h2>Crud-Model</h2>
         </div>
         <div className={`${prefixCls}-header-tools`}>
-          <div
-            title="点击添加"
-            className={`${prefixCls}-header-title-action`}
+          <Button
+            onClick={async () => {
+              uiStore.dark = !dark;
+            }}
+            circle
+            icon={<IconMoonSun />}
+          />
+          <Button
+            circle
+            icon={<IconPlus />}
             onClick={() => {
-              CreateModal({
-                title: '创建模型',
-              }).open(
-                formSchema({
+              ModalForm({
+                ...formSchema({
                   onSearch: async () => {
                     await query();
                   },
                 }),
-              );
+              }).open();
             }}
-          >
-            <IconPlus />
-          </div>
+          />
           <div className={`${prefixCls}-header-tools-item`}>
             <Avatar size={32}>
               <img alt="avatar" src={avatarUrl} />
@@ -77,11 +83,17 @@ export default () => {
             &nbsp; &nbsp;
             <Dropdown
               droplist={
-                <Menu>
-                  <Menu.Item key="1" onClick={outLogin}>
-                    切换用户
-                  </Menu.Item>
-                </Menu>
+                <Menu
+                  menus={[
+                    {
+                      path: '1',
+                      label: '切换用户',
+                      onClick: () => {
+                        outLogin;
+                      },
+                    },
+                  ]}
+                />
               }
             >
               <a>{name}</a>
@@ -95,12 +107,10 @@ export default () => {
         ) : (
           data.map((item) => {
             return (
-              <div>
-                <Card
-                  style={{ width: 360 }}
-                  title={item.name}
-                  key={item.id}
-                  extra={
+              <div key={item.id} className="yld-card">
+                <div className="yld-card-head">
+                  <div className="yld-card-head-title">{item.name}</div>
+                  <div className="yld-card-head-extra">
                     <Space>
                       <a
                         onClick={() => {
@@ -113,21 +123,24 @@ export default () => {
                       </a>
                       <a
                         onClick={() => {
-                          window.open(`/#/preview?schema=${item.pureSchema}&type=${item.type}`);
+                          window.open(
+                            `/#/preview?schema=${item.pureSchema}&type=${item.type}`,
+                          );
                         }}
                       >
                         预览
                       </a>
                     </Space>
-                  }
-                >
+                  </div>
+                </div>
+                <div className="yld-card-body">
                   <CodeEditor
                     value={decode(item.pureSchema)}
                     readOnly
                     minimapEnabled={false}
                   />
-                </Card>
-                <div className="arco-card-footer">
+                </div>
+                <div className="yld-card-footer">
                   <Space>
                     <span>更新时间</span>
                     <a>{item.updateTime}</a>

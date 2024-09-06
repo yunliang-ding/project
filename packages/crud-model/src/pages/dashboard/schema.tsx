@@ -1,5 +1,4 @@
-import { Notification } from '@yl-d/design';
-import { SchemaProps } from '@yl-d/components';
+import { Notification, FormItemProps } from '@yl-d/design';
 import { encode } from '@yl-d/shared';
 import { add } from './services';
 
@@ -34,13 +33,13 @@ export default ({
     },
     schema: [
       {
-        widget: 'Input',
+        type: 'Input',
         name: 'name',
         label: '模型名称',
         required: true,
       },
       {
-        widget: "RadioGroup",
+        type: "RadioGroup",
         name: 'type',
         label: '设计器',
         disabled: initialValues.schema,
@@ -57,6 +56,6 @@ export default ({
           ],
         },
       },
-    ] as SchemaProps[],
+    ] as FormItemProps[],
   };
 };

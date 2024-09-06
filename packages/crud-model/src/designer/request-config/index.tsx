@@ -1,8 +1,7 @@
 /* eslint-disable require-atomic-updates */
 /* eslint-disable no-template-curly-in-string */
 import axios from 'axios';
-import { Notification } from '@yl-d/design';
-import { CreateDrawer } from '@yl-d/components';
+import { DrawerForm, Notification } from '@yl-d/design';
 import { decode, encode } from '@yl-d/shared';
 import { update } from '@/pages/dashboard/services';
 import { CodeEditor, encrypt } from '@yl-d/code-editor';
@@ -40,41 +39,37 @@ export const openRequestConfigDrawer = async (schemaEntity) => {
   requestConfigDrawer(schemaEntity).open({
     width: 800,
     title: '配置请求接口',
-    drawerProps: {
-      headerStyle: {
-        padding: '16px 20px',
-      },
-    },
-    initialValues: services,
+    // headerStyle: {
+    //   padding: '16px 20px',
+    // },
+    // initialValues: services,
   });
 };
 
 const requestConfigDrawer = (schemaEntity) =>
-  CreateDrawer({
+  DrawerForm({
     width: 800,
     title: '配置请求接口',
-    drawerProps: {
-      headerStyle: {
-        padding: '16px 20px',
-      },
-      bodyStyle: {
-        padding: 0,
-      },
-    },
+    // headerStyle: {
+    //   padding: '16px 20px',
+    // },
+    // bodyStyle: {
+    //   padding: 0,
+    // },
     schema: [
       {
-        widget: 'Input',
+        type: 'Input',
         hidden: true,
         name: 'id',
       },
       {
-        widget: 'Input',
+        type: 'Input',
         label: '基地址/baseURL',
         name: 'baseURL',
         required: true,
       },
       {
-        widget: ({ value, onChange }) => {
+        type: ({ value, onChange }) => {
           return (
             <CodeEditor
               style={{

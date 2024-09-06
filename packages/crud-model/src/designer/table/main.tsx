@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
 import { decode, encode } from '@yl-d/shared';
-import { Notification, Space } from '@yl-d/design';
+import { Button, Notification, Space } from '@yl-d/design';
 import { TableDesigner } from '@yl-d/low-code';
 import { update } from '@/pages/dashboard/services';
-import { Button } from '@yl-d/components';
-import { IconSave } from '@yl-d/design/icon';
+import { IconSave } from '@yl-d/icon';
 
 export default ({ schemaEntity }) => {
   const [table] = TableDesigner.useTable();
@@ -47,7 +46,6 @@ export default ({ schemaEntity }) => {
         }
         extra={[
           <Button
-            spin
             onClick={saveOrUpdate}
             type="primary"
             icon={<IconSave />}

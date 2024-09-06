@@ -1,6 +1,6 @@
-import { createStore } from '@yl-d/components';
+import { create } from '@yl-d/hooks';
 
-export default createStore<LayoutProps>({
+export default create<LayoutProps>({
   title: 'Crud-Model',
   primaryColor: '#165dff',
   status: 'loading',

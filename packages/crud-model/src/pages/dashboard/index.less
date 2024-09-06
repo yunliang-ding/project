@@ -10,12 +10,7 @@
     justify-content: space-between;
     padding-left: 14px;
     padding-right: 20px;
-    border-bottom: 1px solid #f2f2f2;
-    .ant-alert-action{
-      span{
-        font-size: 12px;
-      }
-    }
+    border-bottom: 1px solid var(--border-color);
     &-title {
       width: 200px;
       font-weight: 600;
@@ -33,13 +28,13 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: #eee;
+        background-color: var(--bg-color);
         width: 30px;
         height: 30px;
         border-radius: 50%;
         transition: 0.3s;
         &:hover {
-          background-color: #ddd;
+          background-color: var(--bg-color-2);
           transition: 0.3s;
         }
       }
@@ -53,6 +48,8 @@
       &-item {
         font-size: 12px;
         cursor: pointer;
+        display: flex;
+        align-items: center;
       }
     }
   }
@@ -65,34 +62,40 @@
     gap: 20px;
     padding: 20px;
     overflow: auto;
-    .arco-empty {
+    .yld-empty {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       height: 100%;
     }
-    .arco-card {
-      height: 280px;
+    .yld-card {
+      height: 360px;
+      width: 360px;
       transition: 0.3s;
       border-bottom: none;
-      .arco-card-header{
+      color: var(--text-color);
+      &-head {
+        display: flex;
+        align-items: center;
         height: 36px;
+        border: 1px solid var(--border-color);
+        padding: 0 10px;
+        justify-content: space-between;
       }
-      .arco-card-body{
+      &-body {
         overflow: auto;
-        height: calc(100% - 36px);
+        height: calc(100% - 72px);
         padding: 0;
       }
-    }
-    .arco-card-footer{
-      height: 36px;
-      align-items: center;
-      display: flex;
-      justify-content: flex-end;
-      color: #666;
-      border: 1px solid #e5e6ea;
-      padding: 0 10px;
+      &-footer {
+        height: 36px;
+        align-items: center;
+        display: flex;
+        justify-content: flex-end;
+        border: 1px solid var(--border-color);;
+        padding: 0 10px;
+      }
     }
   }
 }

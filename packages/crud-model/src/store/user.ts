@@ -1,7 +1,7 @@
-import { createStore } from '@yl-d/components';
+import { create } from '@yl-d/hooks';
 import { initData } from 'lyr';
 
-export default createStore({
+export default create({
   // 定义 model 的初始 state
   name: '',
   avatarUrl: '',
