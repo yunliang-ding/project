@@ -23,7 +23,7 @@ export default () => {
                   uiStore.currentFile = {};
                 }}
               >
-                <IconClose />
+                <IconClose hover />
               </span>
             </div>
           );

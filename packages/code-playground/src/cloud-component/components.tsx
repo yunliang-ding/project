@@ -1,5 +1,3 @@
-/* eslint-disable require-atomic-updates */
-/* eslint-disable @iceworks/best-practices/recommend-polyfill */
 import { isEmpty } from '@yl-d/shared';
 import { IconRender } from './main';
 import { Message, ModalForm } from '@yl-d/design';

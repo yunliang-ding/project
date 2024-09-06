@@ -1,4 +1,4 @@
-import { Input } from '@yl-d/design';
+import { Empty, Input } from '@yl-d/design';
 import { IconLaunch, IconRefresh } from '@yl-d/icon';
 import uiStore from '@/store/ui';
 import { useEffect, useRef } from 'react';
@@ -20,7 +20,7 @@ export default () => {
   }
   return (
     <div className="code-playground-preview">
-      {currentFile && (
+      {currentFile.id && currentFile.type !== 3 ? (
         <>
           <div className="preview-address">
             <IconRefresh
@@ -46,6 +46,8 @@ export default () => {
             }}
           />
         </>
+      ) : (
+        <Empty label="暂不支持预览" />
       )}
     </div>
   );

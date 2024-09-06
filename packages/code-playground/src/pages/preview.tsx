@@ -1,6 +1,7 @@
 import { Component, useEffect, useState } from 'react';
 import { isEmpty, babelParse } from '@yl-d/shared';
 import { instance } from '@/axios';
+import uiStore from '@/store/ui';
 import CloudComponent from '@/cloud-component';
 import { useSearchParams } from 'react-router-dom';
 import './index.less';
@@ -16,24 +17,19 @@ const RenderError = (error) => {
 };
 
 /** 渲染逻辑 */
-const RenderApp = async ({ data, dependencies }) => {
+const RenderApp = async ({ data }) => {
   try {
     let VDom: any = null;
     if (data.componentName?.endsWith('.md')) {
       VDom = await CloudComponent.parseMarkdown({
         content: data.react,
       });
-      console.log(VDom);
     } else {
       VDom = await CloudComponent.parseReact({
         componentName: data.componentName,
         react: data.react,
         less: data.less,
-        require: {
-          '@yl-d/design': window.yldDesign,
-          '@yl-d/icon': window.yldIcon,
-          ...dependencies,
-        },
+        require: uiStore.require,
       });
     }
     if (document.querySelector('.playground-iframe-app')) {
@@ -58,7 +54,6 @@ const RenderApp = async ({ data, dependencies }) => {
 export default () => {
   const [searchParams] = useSearchParams();
   const [data, setData] = useState({});
-  const [dependencies, setDependencies] = useState({});
   // 查询模型
   const search = async () => {
     const res = await instance.get('/component/detail', {
@@ -66,39 +61,43 @@ export default () => {
         id: searchParams.get('id'),
       },
     });
-    const depRes = await instance.post('/dependencies/list', {
-      pageSize: 100,
+    const depRes = await instance.post('/component/list', {
+      pageSize: 999,
     });
+    const dependencies = {};
     if (depRes.data.code === 200) {
-      const list = depRes.data.data.data;
+      const list = depRes.data.data.data?.filter((i: any) => i.type === 3);
       for (let i = 0; i < list.length; i++) {
         const item = list[i];
-        if (item.content) {
+        if (item.react) {
           try {
-            if (item.type === 'javascript') {
-              new Function(item.content)();
-              dependencies[item.name] = window[item.name];
-            } else if (item.type === 'react') {
-              dependencies[item.name] = babelParse({
-                code: item.content,
-                require: {
-                  '@yl-d/design': window.yldDesign,
-                }
+            if (item.componentName.endsWith('.js')) {
+              new Function(item.react)();
+            } else if (item.componentName.endsWith('.tsx')) {
+              dependencies[item.componentName] = babelParse({
+                code: item.react,
+                require: uiStore.require,
               });
-            } else if (item.type === 'less' && (window as any).less) {
-              const { css } = await (window as any).less.render?.(item.content); // 要添加的 CSS 字符串
-              const sheet = new CSSStyleSheet(); // 创建一个 CSSStyleSheet 对象
-              sheet.insertRule(css, 0); // 将 CSS 规则插入到 CSS 样式表中，位置为第一个
-              document.adoptedStyleSheets = [sheet];
+            } else if (
+              item.componentName.endsWith('.less') &&
+              (window as any).less
+            ) {
+              const { css } = await window.less.render?.(item.react); // 要添加的 CSS 字符串
+              const style = document.createElement('style'); // 创建一个 CSSStyleSheet 对象
+              style.innerHTML = css;
+              document.head.appendChild(style);
             }
-            console.log(`${item.name} 资源解析成功..`);
+            console.log(`${item.componentName} 资源解析成功..`);
           } catch (error) {
             console.log(error);
-            console.log(`${item.name} 资源解析失败..`);
+            console.log(`${item.componentName} 资源解析失败..`);
           }
         }
       }
-      setDependencies({ ...dependencies });
+      uiStore.require = {
+        ...dependencies,
+        ...uiStore.require,
+      };
       setData(res.data.data);
     }
   };
@@ -110,7 +109,6 @@ export default () => {
   if (!isEmpty(data)) {
     RenderApp({
       data,
-      dependencies,
     });
   }
   return (

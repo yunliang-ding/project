@@ -53,12 +53,6 @@ const CloudComponent = ({
               code: item.react,
               require,
             });
-          } else if (item.componentName.endsWith('.less') && window.less) {
-            // 全局样式 less
-            const { css } = await window.less.render?.(item.react); // 要添加的 CSS 字符串
-            const style = document.createElement('style'); // 创建一个 CSSStyleSheet 对象
-            style.innerHTML = css;
-            document.head.appendChild(style);
           }
           onLog(`${item.componentName} 脚本资源解析成功..`);
         } catch (error) {
