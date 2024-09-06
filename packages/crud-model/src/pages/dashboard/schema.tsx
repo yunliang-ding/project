@@ -18,7 +18,8 @@ export default ({
     async onSubmit(values) {
       const { code } = await add({
         ...values,
-        schema: initialValues.id ? initialValues.schema : encode('{}'),
+        schema: encode('{}'),
+        pureSchema: encode('{}'),
       });
       if (code === 200) {
         Notification.success({

@@ -9,20 +9,30 @@ import {
   Space,
   ModalForm,
   Button,
+  Modal,
 } from '@yl-d/design';
 import formSchema from './schema';
 import { outLogin } from '@/services';
 import { getList } from './services';
 import userStore from '@/store/user';
-import { IconMoon, IconPlus, IconSun } from '@yl-d/icon';
+import {
+  IconDelete,
+  IconEdit,
+  IconEye,
+  IconMoon,
+  IconPlus,
+  IconSun,
+} from '@yl-d/icon';
 import Loading from '@/.theme/loading';
 import { CodeEditor } from '@yl-d/code-editor';
 import uiStore from '@/store/ui';
+import { useNavigate } from 'react-router-dom';
 import './index.less';
 
 const prefixCls = 'app-form-designer-dashboard';
 
 export default () => {
+  const navigate = useNavigate();
   const { dark } = uiStore.useSnapshot();
   const IconMoonSun = dark ? IconSun : IconMoon;
   const { name, avatarUrl } = userStore.useSnapshot();
@@ -111,26 +121,28 @@ export default () => {
                 <div className="yld-card-head">
                   <div className="yld-card-head-title">{item.name}</div>
                   <div className="yld-card-head-extra">
-                    <Space>
-                      <a
-                        onClick={() => {
-                          window.open(
-                            `/#/edit?id=${item.id}&type=${item.type}`,
-                          );
-                        }}
-                      >
-                        编辑
-                      </a>
-                      <a
-                        onClick={() => {
-                          window.open(
-                            `/#/preview?schema=${item.pureSchema}&type=${item.type}`,
-                          );
-                        }}
-                      >
-                        预览
-                      </a>
-                    </Space>
+                    <IconEdit
+                      hover
+                      onClick={() => {
+                        navigate(`/edit?id=${item.id}&type=${item.type}`);
+                      }}
+                    />
+                    <IconEye
+                      hover
+                      onClick={() => {
+                        navigate(
+                          `/preview?schema=${item.pureSchema}&type=${item.type}`,
+                        );
+                      }}
+                    />
+                    <IconDelete
+                      hover
+                      onClick={() => {
+                        Modal.confirm({
+                          content: '是否确认删除?',
+                        });
+                      }}
+                    />
                   </div>
                 </div>
                 <div className="yld-card-body">
