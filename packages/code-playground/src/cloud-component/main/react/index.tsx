@@ -4,8 +4,8 @@ import Tabs from './tabs';
 import store from '@/store';
 import uiStore from '@/store/ui';
 
-const Container = ({ item, require, previewRender }) => {
-  const { selectedTab } = uiStore.useSnapshot();
+const Container = ({ item, previewRender }) => {
+  const { selectedTab, require } = uiStore.useSnapshot();
   const codeRef1: any = React.useRef({});
   const codeRef2: any = React.useRef({});
   const codeRef3: any = React.useRef({});

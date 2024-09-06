@@ -34,6 +34,26 @@ const lessStr = `.{componentName}{
 
 export default ({ onAdd, activeTab }) => {
   const { components, currentFile } = uiStore.useSnapshot();
+  const validatorName = (name: string) => {
+    if (/\s+/.test(name)) {
+      Message.error('文件名称不能包含空格');
+      return false;
+    } else if (/[\u4E00-\u9FA5]/.test(name)) {
+      Message.error('文件名称不能有中文');
+      return false;
+    } else if (!/^[^0-9].*/.test(name)) {
+      Message.error('文件名称不能以数字开头');
+      return false;
+    } else if (
+      components.some(
+        (item: any) => item.componentName === name && !isEmpty(name),
+      )
+    ) {
+      Message.error('文件已存在');
+      return false;
+    }
+    return true;
+  };
   /** 新增组件 */
   const addComponent = async (componentName: string, type: number) => {
     const item: any = {};
@@ -79,7 +99,7 @@ export default ({ onAdd, activeTab }) => {
             ModalForm({
               title: '添加组件',
               style: {
-                height: 280,
+                height: 340,
               },
               initialValues: {
                 type: activeTab,
@@ -100,8 +120,33 @@ export default ({ onAdd, activeTab }) => {
                         value: 2,
                       },
                       {
-                        label: 'js 脚本',
+                        label: 'dependencies 依赖文件',
                         value: 3,
+                      },
+                    ],
+                  },
+                },
+                {
+                  type: 'Select',
+                  label: '依赖文件类型',
+                  name: 'depType',
+                  required: true,
+                  visible({ getValues }) {
+                    return getValues().type === 3;
+                  },
+                  props: {
+                    options: [
+                      {
+                        label: 'js 函数',
+                        value: '.js',
+                      },
+                      {
+                        label: 'react 组件',
+                        value: '.tsx',
+                      },
+                      {
+                        label: 'less 样式',
+                        value: '.less',
                       },
                     ],
                   },
@@ -111,34 +156,18 @@ export default ({ onAdd, activeTab }) => {
                   name: 'name',
                   label: '名称',
                   required: true,
-                  // rules: [
-                  //   {
-                  //     async validator(value, callback) {
-                  //       if (/\s+/.test(value)) {
-                  //         callback('文件名称不能包含空格');
-                  //       } else if (/[\u4E00-\u9FA5]/.test(value)) {
-                  //         callback('文件名称不能有中文');
-                  //       } else if (/^\d+$/.test(value)) {
-                  //         callback('文件名称不能以数字开头');
-                  //       } else if (
-                  //         component.some(
-                  //           (item) =>
-                  //             item.componentName === value && !isEmpty(value),
-                  //         )
-                  //       ) {
-                  //         callback('文件已存在');
-                  //       } else {
-                  //         Promise.resolve();
-                  //       }
-                  //     },
-                  //   },
-                  // ],
                 },
               ],
               async onSubmit(values) {
-                let { type, name } = values;
+                let { type, name, depType } = values;
                 if (type === 2) {
                   name += '.md';
+                }
+                if (type === 3) {
+                  name += depType;
+                }
+                if (!validatorName(name)) {
+                  return Promise.reject();
                 }
                 await addComponent(name, type);
               },

@@ -41,28 +41,25 @@ const CloudComponent = ({
     const _dep = {};
     for (let i = 0; i < dep.length; i++) {
       const item = dep[i];
-      if (item.react) {
+      if (item.react && !item.componentName.endsWith('.less')) {
         try {
-          await new Promise((res) => setTimeout(res, 400));
           onLog(`加载脚本: ${item.componentName}`);
-          await new Promise((res) => setTimeout(res, 400));
-          new Function(item.react)();
-          // // umd 资源
-          // if (item.componentName.endsWith('.js')) {
-          //   new Function(item.react)();
-          // } else if (item.componentName.endsWith('.tsx')) {
-          //   // react 组件
-          //   _dep[item.name] = babelParse({
-          //     code: item.react,
-          //     require,
-          //   });
-          // } else if (item.componentName.endsWith('.less') && window.less) {
-          //   // 全局样式 less
-          //   const { css } = await window.less.render?.(item.react); // 要添加的 CSS 字符串
-          //   const sheet = new CSSStyleSheet(); // 创建一个 CSSStyleSheet 对象
-          //   sheet.insertRule(css, 0); // 将 CSS 规则插入到 CSS 样式表中，位置为第一个
-          //   document.adoptedStyleSheets = [sheet];
-          // }
+          await new Promise((res) => setTimeout(res, 100));
+          if (item.componentName.endsWith('.js')) {
+            new Function(item.react)();
+          } else if (item.componentName.endsWith('.tsx')) {
+            // react 组件
+            _dep[item.componentName.replace('.tsx', '')] = babelParse({
+              code: item.react,
+              require,
+            });
+          } else if (item.componentName.endsWith('.less') && window.less) {
+            // 全局样式 less
+            const { css } = await window.less.render?.(item.react); // 要添加的 CSS 字符串
+            const style = document.createElement('style'); // 创建一个 CSSStyleSheet 对象
+            style.innerHTML = css;
+            document.head.appendChild(style);
+          }
           onLog(`${item.componentName} 脚本资源解析成功..`);
         } catch (error) {
           console.log(error);
@@ -105,7 +102,7 @@ const CloudComponent = ({
     return () => {
       window.removeEventListener('keydown', keyboardEvent);
     };
-  }, [components, require]);
+  }, [components, require, currentFile]);
   return (
     <div className="cloud-component" style={style}>
       <div className="cloud-component-left">
@@ -128,7 +125,6 @@ const CloudComponent = ({
             <Main
               item={currentFile}
               key={currentFile.id}
-              require={require}
               previewRender={previewRender}
             />
           </>

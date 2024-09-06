@@ -17,6 +17,9 @@ const Container = ({ item }) => {
         <CodeEditor
           codeRef={codeRef}
           value={item.react}
+          language={
+            item.componentName.endsWith('.less') ? 'less' : 'javascript'
+          }
           minimapEnabled={false}
           onChange={(code: string) => {
             item.react = code;

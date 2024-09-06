@@ -47,6 +47,10 @@ export const injectScript = async (src: string, name) => {
 export const IconRender = ({ componentName }) => {
   if (componentName?.endsWith('.md')) {
     return <i className="file-icon markdown-lang-file-icon" />;
+  } else if (componentName?.endsWith('.js')) {
+    return <i className="file-icon javascript-lang-file-icon" />;
+  } else if (componentName?.endsWith('.less')) {
+    return <i className="file-icon less-lang-file-icon" />;
   }
   return <i className="file-icon javascriptreact-lang-file-icon" />;
 };

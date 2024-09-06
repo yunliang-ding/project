@@ -22,6 +22,7 @@ export const simpleNotice = (text: string, type = 'success') => {
 
 const CodeComponents = ({ stepRef, setLoadOver }) => {
   const addOrUpdate = async (value: any) => {
+    console.log(value);
     const {
       data: { code, data },
     } = await instance.post(value.id ? '/component/update' : '/component/add', {
@@ -48,9 +49,9 @@ const CodeComponents = ({ stepRef, setLoadOver }) => {
     <>
       <CloudComponent
         onSave={addOrUpdate}
-        onAdd={async (value) => {
+        onAdd={async (item: any) => {
           await new Promise((res) => setTimeout(res, 500));
-          return await addOrUpdate(value);
+          return await addOrUpdate(item);
         }}
         onLog={async (info) => {
           await stepRef.current.updateLogs(info, 1000);
@@ -82,20 +83,24 @@ export default () => {
       },
     } = await instance.post('/component/list');
     setSpin(false);
-    uiStore.components =
-      code === 200
-        ? data.reverse().map((i: any) => {
-          const item = {
-            ...i,
-            props: JSON.parse(i.props),
-            originReact: i.react,
-          }
-            if(String(item.id) === id){
-              uiStore.currentFile = item;
-            }
-            return item
-          })
-        : [];
+    if (code === 200 && data.length > 0) {
+      uiStore.components = data.reverse().map((i: any) => {
+        const item = {
+          ...i,
+          props: JSON.parse(i.props),
+          originReact: i.react,
+        };
+        if (String(item.id) === id) {
+          uiStore.currentFile = item;
+          uiStore.activeTab = item.type;
+        }
+        return item;
+      });
+    }
+    if (!id) {
+      uiStore.currentFile = uiStore.components[0];
+      uiStore.activeTab = uiStore.currentFile.type;
+    }
   };
   useEffect(() => {
     queryCompList();

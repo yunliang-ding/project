@@ -1,5 +1,6 @@
 import { IconClose } from '@yl-d/icon';
 import uiStore from '@/store/ui';
+import { IconRender } from '..';
 
 export default () => {
   const { currentFile } = uiStore.useSnapshot();
@@ -8,13 +9,12 @@ export default () => {
       <div className="cloud-component-tabs">
         {[
           {
-            icon: <i className="file-icon javascript-lang-file-icon" />,
             name: currentFile.componentName,
           },
         ].map((file) => {
           return (
             <div className="cloud-component-tabs-item-selected" key={file.name}>
-              {file.icon}
+              <IconRender componentName={file.name} />
               {file.name}
               <span
                 className="close-icon"
