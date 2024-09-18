@@ -25,7 +25,7 @@ export default {
 > 不展示链接线、选中行样式、光标样式、readonly 的悬浮提示
 
 ```less
-.monaco-editor {
+.monaco-editor-syntax-highlight {
   .decorationsOverviewRuler,
   .current-line,
   .core-guide,
