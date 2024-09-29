@@ -18,7 +18,8 @@ export default () => {
           />
           我的云音乐
         </h2>
-        <Tabs
+        <QRCode />
+        {/* <Tabs
           tabs={[
             {
               key: '1',
@@ -31,7 +32,7 @@ export default () => {
               content: <QRCode />,
             },
           ]}
-        />
+        /> */}
       </div>
     </div>
   );
