@@ -5,16 +5,13 @@ import { Table, Form, Button } from '@yl-d/design';
 import { getPlayList } from './services';
 import userStore from '@/store/user';
 import { IconRefresh } from '@yl-d/icon';
+import { start } from '@/pages/recommend/list';
 
 const Page = () => {
-  const { userId, likeIds }: any = userStore.useSnapshot();
+  const { userId, likeIds, playing }: any = userStore.useSnapshot();
   const breadCrumb = useBreadCrumb();
   const tableRef: any = useRef({});
   const form = Form.useForm();
-  const startPlay = (record: any) => {
-    localStorage.setItem('musicId', record.id); // 处理 render 函数获取不到最新的 state 问题
-    userStore.playMusic = record;
-  };
   useEffect(() => {
     (async () => {
       const { code, playlist } = await getPlayList(userId);
@@ -85,8 +82,12 @@ const Page = () => {
     <Table
       tableRef={tableRef}
       {...tableSchema({
-        startPlay,
+        start,
+        suspended: () => {
+          userStore.playing = false;
+        },
         likeIds,
+        playing,
       })}
     />
   );

@@ -5,14 +5,16 @@ import userStore from '@/store/user';
 import { DatePicker, Table, Button } from '@yl-d/design';
 import { IconRefresh } from '@yl-d/icon';
 
+export const start = (record: any) => {
+  userStore.playing = true;
+  localStorage.setItem('musicId', record.id); // 处理 render 函数获取不到最新的 state 问题
+  userStore.playMusic = record;
+};
+
 const Page = () => {
-  const { userId, likeIds } = userStore.useSnapshot();
+  const { userId, likeIds, playing } = userStore.useSnapshot();
   const breadCrumb = useBreadCrumb();
   const tableRef: any = useRef<any>({});
-  const startPlay = (record: any) => {
-    localStorage.setItem('musicId', record.id); // 处理 render 函数获取不到最新的 state 问题
-    userStore.playMusic = record;
-  };
   useEffect(() => {
     breadCrumb?.update({
       title: (
@@ -45,9 +47,13 @@ const Page = () => {
     <Table
       tableRef={tableRef}
       {...tableSchema({
-        startPlay,
+        start,
+        suspended: () => {
+          userStore.playing = false;
+        },
         uid: userId,
         likeIds,
+        playing,
       })}
     />
   );

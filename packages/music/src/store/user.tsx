@@ -10,6 +10,7 @@ export default create({
   remoteUrl: '',
   menus: [], // 菜单
   playMusic: {} as any, // 当前用户播放的歌曲
+  playing: false,
   userId: '',
   likeIds: [],
   // 定义处理该模型副作用的函数

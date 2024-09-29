@@ -12,6 +12,10 @@ export const getHistoryList = async (date: string): Promise<any> => {
   );
 };
 
-export const like = async (id: number): Promise<any> => {
-  return request.get(`/music.163/like?id=${id}`, {});
+export const like = async (id: number, like = true): Promise<any> => {
+  return request.get(`/music.163/like?id=${id}`, {
+    params: {
+      like,
+    },
+  });
 };

@@ -13,7 +13,7 @@ import {
 } from '@yl-d/icon';
 import { getList } from './services';
 
-const tableSchema = ({ startPlay, likeIds }): any => ({
+const tableSchema = ({ start, likeIds, suspended, playing }): any => ({
   pagination: false,
   useRefresh: false,
   useFilter: false,
@@ -34,16 +34,15 @@ const tableSchema = ({ startPlay, likeIds }): any => ({
       dataIndex: 'play',
       width: 100,
       render: (e: any, record: any) => {
-        const playing = localStorage.getItem('musicId') === String(record.id);
-        return playing ? (
+        const play =
+          localStorage.getItem('musicId') === String(record.id) && playing;
+        return play ? (
           <IconSound
             style={{
               cursor: 'pointer',
               color: 'var(--primary-color)',
             }}
-            onClick={() => {
-              startPlay(record);
-            }}
+            onClick={suspended}
           />
         ) : (
           <IconPlayArrow
@@ -52,7 +51,7 @@ const tableSchema = ({ startPlay, likeIds }): any => ({
               color: 'var(--primary-color)',
             }}
             onClick={() => {
-              startPlay(record);
+              start(record);
             }}
           />
         );
@@ -88,7 +87,9 @@ const tableSchema = ({ startPlay, likeIds }): any => ({
             }}
           >
             {fee === 1 && (
-              <IconLock style={{ color: 'var(--primary-color)', marginRight: 10 }} />
+              <IconLock
+                style={{ color: 'var(--primary-color)', marginRight: 10 }}
+              />
             )}
             <span>{name}</span>
           </div>
@@ -131,7 +132,14 @@ const tableSchema = ({ startPlay, likeIds }): any => ({
         {
           key: 'liked',
           label: likeIds.includes(record.id) ? (
-            <IconHeartFill />
+            <IconHeartFill
+              onClick={async () => {
+                const { code } = await like(record.id, false);
+                if (code === 200) {
+                  Message.success('已取消喜欢');
+                }
+              }}
+            />
           ) : (
             <IconHeart
               onClick={async () => {

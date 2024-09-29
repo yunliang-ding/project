@@ -7,13 +7,11 @@ import {
 } from '@yl-d/icon';
 import { queryOss } from './services';
 import userStore from '@/store/user';
+import { start } from '@/pages/recommend/list';
 import './index.less';
 
 const Page = () => {
-  const startPlay = (record: any) => {
-    localStorage.setItem('musicId', record.id); // 处理 render 函数获取不到最新的 state 问题
-    userStore.playMusic = record;
-  };
+  const { playMusic, playing } = userStore.useSnapshot();
   return (
     <Table
       {...{
@@ -34,19 +32,15 @@ const Page = () => {
             dataIndex: 'play',
             width: 100,
             render: (e: any, record: any) => {
-              const playing =
-                localStorage.getItem('musicId') === String(record.id);
-              return playing ? (
+              const play = playMusic.id === record.id && playing;
+              return play ? (
                 <IconSound
                   style={{
                     cursor: 'pointer',
                     color: 'var(--primary-color)',
                   }}
                   onClick={() => {
-                    startPlay({
-                      name: record.title,
-                      ksUrl: record.url,
-                    });
+                    userStore.playing = false;
                   }}
                 />
               ) : (
@@ -56,7 +50,8 @@ const Page = () => {
                     color: 'var(--primary-color)',
                   }}
                   onClick={() => {
-                    startPlay({
+                    start({
+                      id: record.id,
                       name: record.title,
                       ksUrl: record.url,
                     });
@@ -108,7 +103,6 @@ const Page = () => {
         },
         request: async () => {
           const { data: res } = await queryOss();
-          console.log(res);
           return {
             success: res.code === 200,
             total: res.data.length,

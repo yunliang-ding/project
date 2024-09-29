@@ -25,8 +25,8 @@ const TimeText = (time: number) => {
   }
   return '-';
 };
-const MusicToolBar = ({ setPlaying, playing, IconRender }) => {
-  const { playMusic }: any = userStore.useSnapshot();
+const MusicToolBar = ({ IconRender }) => {
+  const { playMusic, playing }: any = userStore.useSnapshot();
   const { dt, id } = playMusic;
   const [lyric, setLyric] = useState({});
   const [progress, setProgress]: any = useState(0);
@@ -49,7 +49,7 @@ const MusicToolBar = ({ setPlaying, playing, IconRender }) => {
         ] = i.slice(i.indexOf(']') + 1);
       });
     setLyric(obj);
-    setPlaying(true);
+    userStore.playing = true;
   };
   useEffect(() => {
     if (id) {
@@ -58,12 +58,12 @@ const MusicToolBar = ({ setPlaying, playing, IconRender }) => {
   }, [id]);
   useEffect(() => {
     $('#audio').ontimeupdate = (e: any) => {
-      setProgress(e.target.currentTime / dt * 100000);
+      setProgress((e.target.currentTime / dt) * 100000);
     };
   }, [dt]);
   // 渲染之前的节点
-  if (lyric[Math.floor(progress * dt / 100000)] !== undefined) {
-    lyricString = lyric[Math.floor(progress * dt / 100000)];
+  if (lyric[Math.floor((progress * dt) / 100000)] !== undefined) {
+    lyricString = lyric[Math.floor((progress * dt) / 100000)];
   }
   return (
     <div className="music-toolbar">
@@ -78,7 +78,9 @@ const MusicToolBar = ({ setPlaying, playing, IconRender }) => {
             <span style={{ color: '#999' }}>{playMusic.arName}</span>
           </Marquee>
           <div style={{ marginLeft: 10 }}>
-            <span style={{ color: '#999' }}>{TimeText(progress * dt / 100000)}</span>
+            <span style={{ color: '#999' }}>
+              {TimeText((progress * dt) / 100000)}
+            </span>
             <span style={{ color: '#999' }}>/</span>
             <span style={{ color: '#999' }}>{TimeText(dt / 1000)}</span>
           </div>
@@ -91,7 +93,7 @@ const MusicToolBar = ({ setPlaying, playing, IconRender }) => {
         value={progress}
         onChange={(e: any) => {
           // 更新音乐
-          $('#audio').currentTime = e  * dt / 100000;
+          $('#audio').currentTime = (e * dt) / 100000;
           setProgress(e);
         }}
       />
@@ -119,42 +121,36 @@ const MusicToolBar = ({ setPlaying, playing, IconRender }) => {
 };
 
 export default () => {
-  const [playing, setPlaying] = useState(false);
+  const { playing } = userStore.useSnapshot();
   useEffect(() => {
     playing ? $('#audio').play() : $('#audio').pause();
   }, [playing]);
   const IconRender = playing ? (
     <IconPauseCircle
       onClick={() => {
-        setPlaying(false);
+        userStore.playing = false;
       }}
       style={{
         fontSize: 20,
         padding: 4,
-        color: "#ff",
-        backgroundColor: "var(--bg-color-2)",
+        color: '#ff',
+        backgroundColor: 'var(--bg-color-2)',
         borderRadius: '50%',
       }}
     />
   ) : (
     <IconPlayCircle
       onClick={() => {
-        setPlaying(true);
+        userStore.playing = true;
       }}
       style={{
         fontSize: 20,
         padding: 4,
-        color: "#ff",
-        backgroundColor: "var(--bg-color-2)",
+        color: '#ff',
+        backgroundColor: 'var(--bg-color-2)',
         borderRadius: '50%',
       }}
     />
   );
-  return (
-    <MusicToolBar
-      setPlaying={setPlaying}
-      IconRender={IconRender}
-      playing={playing}
-    />
-  );
+  return <MusicToolBar IconRender={IconRender} />;
 };

@@ -21,7 +21,7 @@ export const userInfo = async () => {
             },
             {
               id: 44,
-              name: 'Oss 在线',
+              name: '快手平台资源',
               order: 1,
               path: '/search/oss',
               children: [],

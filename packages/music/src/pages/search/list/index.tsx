@@ -4,15 +4,12 @@ import tableSchema from './schema-table';
 import { Table, Input } from '@yl-d/design';
 import userStore from '@/store/user';
 import { IconSearch } from '@yl-d/icon';
+import { start } from '@/pages/recommend/list';
 
 const Page = () => {
   const tableRef: any = useRef({});
-  const { userId, likeIds } = userStore.useSnapshot();
+  const { userId, likeIds, playing } = userStore.useSnapshot();
   const breadCrumb = useBreadCrumb();
-  const startPlay = (record: any) => {
-    localStorage.setItem('musicId', record.id); // 处理 render 函数获取不到最新的 state 问题
-    userStore.playMusic = record;
-  };
   useEffect(() => {
     breadCrumb?.update({
       extra: (
@@ -33,9 +30,13 @@ const Page = () => {
     <Table
       tableRef={tableRef}
       {...tableSchema({
-        startPlay,
+        start,
+        suspended: () => {
+          userStore.playing = false;
+        },
         uid: userId,
         likeIds,
+        playing,
       })}
     />
   );
