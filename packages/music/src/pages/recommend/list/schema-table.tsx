@@ -16,7 +16,7 @@ import {
 const tableSchema = ({ startPlay, uid, likeIds }): any => ({
   useRefresh: false,
   useFilter: false,
-  paginationConfig: false,
+  pagination: false,
   scroll: {
     y: 'calc(-186px + 100vh)',
   },

@@ -19,6 +19,13 @@ export const userInfo = async () => {
               path: '/search/list',
               children: [],
             },
+            {
+              id: 44,
+              name: 'Oss 在线',
+              order: 1,
+              path: '/search/oss',
+              children: [],
+            },
           ],
         },
         {

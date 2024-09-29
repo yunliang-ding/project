@@ -14,7 +14,7 @@ import {
 import { getList } from './services';
 
 const tableSchema = ({ startPlay, likeIds }): any => ({
-  paginationConfig: false,
+  pagination: false,
   useRefresh: false,
   useFilter: false,
   scroll: {
