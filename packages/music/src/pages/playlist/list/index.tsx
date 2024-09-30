@@ -95,6 +95,6 @@ const Page = () => {
 
 Page.auth = '/playlist/list'; // 路由鉴权
 
-Page.keeplive = true; // 启用缓存
+Page.keepAlive = true; // 启用缓存
 
 export default Page;

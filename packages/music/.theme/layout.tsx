@@ -5,14 +5,13 @@ import userStore from '@/store/user';
 import breadcrumbStore from '@/store/breadcrumb';
 import { outLogin } from '@/services';
 import { useEffect, useRef } from 'react';
-import { Outlet } from 'react-router-dom';
-import { logo } from 'lyr';
+import { KeepAliveOutlet, logo } from 'lyr';
 import Footer from './footer';
 
 export default ({ routerInterceptors }: any) => {
   const layoutRef: any = useRef({});
   const breadcrumb = breadcrumbStore.useSnapshot();
-  const { dark, title, collapsed, primaryColor, layout } =
+  const { dark, title, collapsed, primaryColor } =
     uiStore.useSnapshot();
   const { name, avatarUrl, menus } = userStore.useSnapshot();
   const setCollapsed = (v: boolean) => {
@@ -76,7 +75,7 @@ export default ({ routerInterceptors }: any) => {
       pageHeaderProps={breadcrumb}
       siderFooterRender={() => null}
     >
-      {VNode ? VNode : <Outlet />}
+      {VNode ? VNode : <KeepAliveOutlet />}
       <Footer />
     </Layout>
   );

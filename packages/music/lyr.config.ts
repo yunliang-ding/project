@@ -17,6 +17,7 @@ export default defineConfig({
     'https://lyr-cli-oss.oss-cn-beijing.aliyuncs.com/cdn/jsx-runtime.polyfill.js',
     'https://lyr-cli-oss.oss-cn-beijing.aliyuncs.com/cdn/@yl-d/icon.min.js',
     'https://lyr-cli-oss.oss-cn-beijing.aliyuncs.com/cdn/@yl-d/design.min.js',
+    'https://lyr-cli-oss.oss-cn-beijing.aliyuncs.com/cdn/track.min.js',
   ],
   buildScript: [
     'https://lyr-cli-oss.oss-cn-beijing.aliyuncs.com/cdn/react.production.min.js',
