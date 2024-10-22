@@ -75,7 +75,7 @@ export default () => {
             if (item.componentName.endsWith('.js')) {
               new Function(item.react)();
             } else if (item.componentName.endsWith('.tsx')) {
-              dependencies[item.componentName] = babelParse({
+              dependencies[item.componentName.replace('.tsx', '')] = babelParse({
                 code: item.react,
                 require: uiStore.require,
               });
@@ -88,7 +88,6 @@ export default () => {
               style.innerHTML = css;
               document.head.appendChild(style);
             }
-            console.log(`${item.componentName} 资源解析成功..`);
           } catch (error) {
             console.log(error);
             console.log(`${item.componentName} 资源解析失败..`);
