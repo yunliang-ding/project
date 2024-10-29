@@ -91,20 +91,38 @@ export default defineConfig({
           label: '基于monaco的语法高亮',
           path: '/blog/syntax-hightlight',
         },
-      ],
-    },
-    {
-      label: '面试相关',
-      path: '/interview',
-      children: [
         {
           label: '大文件上传',
-          path: '/interview/upload',
+          path: '/blog/big-file-upload',
         },
         {
           label: '下载文件',
-          path: '/interview/download',
+          path: '/blog/download',
         },
+        {
+          label: 'call&apply&bind',
+          path: '/blog/call-apply-bind',
+        },
+        {
+          label: 'new 操作符',
+          path: '/blog/new',
+        },
+        {
+          label: '作用域闭包',
+          path: '/blog/scope-closure',
+        },
+        {
+          label: 'this 指向',
+          path: '/blog/this',
+        },
+        {
+          label: "首屏优化",
+          path: "/blog/optimization"
+        },
+        {
+          label: "请求库的封装",
+          path: "/blog/request"
+        }
       ],
     },
     {
